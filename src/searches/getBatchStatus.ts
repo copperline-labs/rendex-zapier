@@ -23,7 +23,7 @@ export default {
   display: {
     label: "Get Batch Status",
     description:
-      "Look up the status and results of a batch capture by batch ID.",
+      "Check on a batch of screenshot jobs and retrieve the finished results.\n\nUse this after 'Submit Batch'. Pass the Batch ID from that step, and this action returns overall status plus the per-URL results once they're ready.\n\nBatches with many URLs can take several minutes — consider a 'Delay by Zapier' step between Submit Batch and this action, or use a Webhook URL on the batch submission to receive results automatically.",
   },
   operation: {
     inputFields: [
@@ -32,7 +32,8 @@ export default {
         label: "Batch ID",
         type: "string" as const,
         required: true,
-        helpText: "The batch ID returned by the Submit Batch action.",
+        helpText:
+          "The Batch ID returned by 'Submit Batch'. Use the data picker to pull it directly from that step's output.",
       },
     ],
     perform,

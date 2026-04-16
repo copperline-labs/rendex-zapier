@@ -1,6 +1,6 @@
 {
   "name": "rendex-zapier",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Rendex screenshot & rendering API integration for Zapier — capture screenshots, generate PDFs, and process batches directly from your Zaps.",
   "main": "lib/index.js",
   "author": "Copperline Labs <admin@copperlinelabs.com> (https://copperlinelabs.com)",

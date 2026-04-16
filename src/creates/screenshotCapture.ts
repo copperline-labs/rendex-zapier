@@ -46,7 +46,7 @@ export default {
   display: {
     label: "Capture Screenshot",
     description:
-      "Capture a screenshot of a webpage or HTML snippet. Returns a PNG, JPEG, or WebP image file synchronously. For heavy pages (full-page scrolls of news sites, e-commerce, or dashboards), use Capture Screenshot (Async) instead — Zapier's 30-second action timeout often trips on large sync captures.",
+      "Capture a webpage or HTML snippet and receive the image file (PNG, JPEG, or WebP) immediately in this step.\n\nBest for: home pages, landing pages, short documents, product pages.\n\nFor large pages (full-page scrolls of news sites, e-commerce, dashboards) use 'Capture Screenshot (Background)' instead — Zap steps time out after 30 seconds and heavy pages often exceed that.",
   },
   operation: {
     inputFields: [

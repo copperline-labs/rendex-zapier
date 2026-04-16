@@ -23,7 +23,7 @@ export default {
   display: {
     label: "Get Job Status",
     description:
-      "Look up the status and result of an async screenshot capture by job ID.",
+      "Check on a background screenshot job and retrieve the finished image.\n\nUse this after 'Capture Screenshot (Background)'. Pass the Job ID from that step, and this action returns the status ('queued', 'processing', 'succeeded', or 'failed') plus a signed Result URL pointing at the image once it's ready.\n\nMost jobs finish in 5–30 seconds. For long pages, insert a 'Delay by Zapier' step between the Background capture and this action.",
   },
   operation: {
     inputFields: [
@@ -32,7 +32,8 @@ export default {
         label: "Job ID",
         type: "string" as const,
         required: true,
-        helpText: "The job ID returned by the Capture Async action.",
+        helpText:
+          "The Job ID returned by 'Capture Screenshot (Background)'. Use the data picker to pull it directly from that step's output — don't paste manually.",
       },
     ],
     perform,

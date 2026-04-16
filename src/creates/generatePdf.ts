@@ -44,7 +44,7 @@ export default {
   display: {
     label: "Generate PDF",
     description:
-      "Generate a PDF document from a webpage or HTML snippet synchronously. Supports custom page sizes, margins, and landscape orientation. For long-form or heavy pages, prefer Capture Screenshot (Async) with Format = PDF — Zapier's 30-second action timeout often trips on large sync PDF renders.",
+      "Generate a PDF document from a webpage or HTML snippet and receive the file immediately in this step. Supports custom page sizes, margins, and landscape orientation.\n\nBest for: invoices, receipts, short reports, single-page documents.\n\nFor long or heavy PDFs (multi-page reports, full-length articles, complex dashboards) use 'Capture Screenshot (Background)' with Output Format = PDF — Zap steps time out after 30 seconds and large PDF renders often exceed that.",
   },
   operation: {
     inputFields: [
