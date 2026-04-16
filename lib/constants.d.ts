@@ -1,5 +1,5 @@
 export declare const API_BASE = "https://api.rendex.dev";
-export declare const CREDENTIAL_TEST_PATH = "/v1/jobs/credential-check";
+export declare const CREDENTIAL_TEST_PATH = "/v1/credential-check";
 export declare const SCREENSHOT_ENDPOINT = "/v1/screenshot";
 export declare const SCREENSHOT_JSON_ENDPOINT = "/v1/screenshot/json";
 export declare const BATCH_ENDPOINT = "/v1/screenshot/batch";
