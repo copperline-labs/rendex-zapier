@@ -6,9 +6,12 @@ export function buildRequestBody(
 ): Record<string, unknown> {
   const body: Record<string, unknown> = {};
 
-  // Source
+  // Source — trim whitespace and auto-prepend https:// if the user typed a
+  // bare domain like "yahoo.com". The underlying API uses Zod's .url()
+  // validator which requires a protocol; forgiving common user input here
+  // keeps the Zap-editor UX friendly.
   const source = input.source || "url";
-  if (source === "url" && input.url) body.url = input.url;
+  if (source === "url" && input.url) body.url = normalizeUrl(input.url);
   if (source === "html" && input.html) body.html = input.html;
 
   // Format
@@ -84,4 +87,15 @@ function parseJson(val: unknown, fieldName: string): unknown {
   } catch {
     throw new Error(`Invalid JSON in ${fieldName} field.`);
   }
+}
+
+// Accepts bare domains ("yahoo.com"), URLs with or without trailing slash,
+// URLs pasted with accidental whitespace. Returns a protocol-prefixed URL.
+// The Rendex API still runs Zod's .url() on the final value — this just
+// catches the most common Zapier user-input mistake.
+export function normalizeUrl(val: unknown): string {
+  const raw = String(val ?? "").trim();
+  if (!raw) return raw;
+  if (/^https?:\/\//i.test(raw)) return raw;
+  return `https://${raw}`;
 }

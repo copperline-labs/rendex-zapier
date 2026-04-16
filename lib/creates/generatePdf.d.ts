@@ -14,31 +14,37 @@ declare const _default: {
             choices: {
                 url: string;
                 html: string;
-                png?: undefined;
-                jpeg?: undefined;
-                webp?: undefined;
-                pdf?: undefined;
             };
             default: string;
             required: boolean;
             helpText: string;
             altersDynamicFields: boolean;
-        } | {
+        } | ((_z: ZObject, bundle: Bundle) => {
+            key: string;
+            label: string;
+            type: "text";
+            required: boolean;
+            helpText: string;
+        }[] | {
+            key: string;
+            label: string;
+            type: "string";
+            required: boolean;
+            helpText: string;
+        }[]) | {
             key: string;
             label: string;
             type: "string";
             choices: {
-                png: string;
-                jpeg: string;
-                webp: string;
-                pdf: string;
-                url?: undefined;
-                html?: undefined;
+                A3: string;
+                A4: string;
+                Legal: string;
+                Letter: string;
+                Tabloid: string;
             };
             default: string;
             required: boolean;
             helpText: string;
-            altersDynamicFields?: undefined;
         } | {
             key: string;
             label: string;
@@ -50,15 +56,23 @@ declare const _default: {
         } | {
             key: string;
             label: string;
-            type: "string";
+            type: "text";
             required: boolean;
             helpText: string;
-            default?: undefined;
             choices?: undefined;
+            default?: undefined;
         } | {
             key: string;
             label: string;
-            type: "text";
+            type: "number";
+            required: boolean;
+            helpText: string;
+            choices?: undefined;
+            default?: undefined;
+        } | {
+            key: string;
+            label: string;
+            type: "string";
             required: boolean;
             helpText: string;
             default?: undefined;
@@ -70,32 +84,6 @@ declare const _default: {
             default: string;
             required: boolean;
             helpText: string;
-            choices?: undefined;
-        } | {
-            key: string;
-            label: string;
-            type: "string";
-            choices: {
-                A3: string;
-                A4: string;
-                Legal: string;
-                Letter: string;
-                Tabloid: string;
-                domcontentloaded?: undefined;
-                load?: undefined;
-                networkidle0?: undefined;
-                networkidle2?: undefined;
-            };
-            required: boolean;
-            helpText: string;
-            default?: undefined;
-        } | {
-            key: string;
-            label: string;
-            type: "number";
-            required: boolean;
-            helpText: string;
-            default?: undefined;
             choices?: undefined;
         } | {
             key: string;
@@ -114,11 +102,6 @@ declare const _default: {
                 load: string;
                 networkidle0: string;
                 networkidle2: string;
-                A3?: undefined;
-                A4?: undefined;
-                Legal?: undefined;
-                Letter?: undefined;
-                Tabloid?: undefined;
             };
             default: string;
             required: boolean;

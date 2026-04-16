@@ -2,42 +2,116 @@
 // packages/screenshot-api/src/services/screenshot.ts.
 // Alphabetized advanced options match the n8n node layout exactly.
 
-const sourceFields = [
+import type { Bundle, ZObject } from "zapier-platform-core";
+
+// Static trigger field — always visible. altersDynamicFields re-runs the
+// dynamic-fields function (sourceValueFields below) when the user
+// changes this dropdown, swapping between URL and HTML input.
+const sourceTypeField = {
+  key: "source",
+  label: "Source Type",
+  type: "string" as const,
+  choices: { url: "URL", html: "Raw HTML" },
+  default: "url",
+  required: true,
+  helpText: "Capture a live URL or render raw HTML markup.",
+  altersDynamicFields: true,
+};
+
+// Dynamic function — returns ONLY the URL field when source=url, ONLY the
+// HTML field when source=html. Previously both were declared as static
+// required fields, so Zapier demanded both simultaneously and users
+// couldn't submit the form. Zapier re-invokes this whenever source changes.
+const sourceValueFields = (_z: ZObject, bundle: Bundle) => {
+  const source = (bundle.inputData?.source as string) || "url";
+  if (source === "html") {
+    return [
+      {
+        key: "html",
+        label: "HTML",
+        type: "text" as const,
+        required: true,
+        helpText: "Raw HTML to render and capture. Max 5 MB.",
+      },
+    ];
+  }
+  return [
+    {
+      key: "url",
+      label: "URL",
+      type: "string" as const,
+      required: true,
+      helpText: "The full webpage URL to capture, including https://.",
+    },
+  ];
+};
+
+const formatField = {
+  key: "format",
+  label: "Output Format",
+  type: "string" as const,
+  choices: { png: "PNG", jpeg: "JPEG", webp: "WebP", pdf: "PDF" },
+  default: "png",
+  required: false,
+  helpText: "Image or document format for the capture output.",
+  altersDynamicFields: true,
+};
+
+// PDF-specific field definitions. Used directly by the Generate PDF action
+// (where format is always PDF) and filtered by pdfDynamicFields for the
+// image-capable actions (Screenshot Capture, Capture Async) where they
+// only appear when the user selects Output Format = PDF.
+const pdfFieldsArray = [
   {
-    key: "source",
-    label: "Source Type",
+    key: "pdfFormat",
+    label: "PDF Page Size",
     type: "string" as const,
-    choices: { url: "URL", html: "Raw HTML" },
-    default: "url",
-    required: true,
-    helpText: "Capture a live URL or render raw HTML markup.",
-    altersDynamicFields: true,
-  },
-  {
-    key: "url",
-    label: "URL",
-    type: "string" as const,
-    required: true,
-    helpText: "The full webpage URL to capture.",
-  },
-  {
-    key: "html",
-    label: "HTML",
-    type: "text" as const,
-    required: true,
-    helpText:
-      "Raw HTML to render and capture. Max 5 MB. Mutually exclusive with URL.",
-  },
-  {
-    key: "format",
-    label: "Output Format",
-    type: "string" as const,
-    choices: { png: "PNG", jpeg: "JPEG", webp: "WebP", pdf: "PDF" },
-    default: "png",
+    choices: { A3: "A3", A4: "A4", Legal: "Legal", Letter: "Letter", Tabloid: "Tabloid" },
+    default: "A4",
     required: false,
-    helpText: "Image or document format for the capture output.",
+    helpText: "PDF page size. Default: A4.",
+  },
+  {
+    key: "pdfLandscape",
+    label: "PDF Landscape",
+    type: "boolean" as const,
+    default: "false",
+    required: false,
+    helpText: "Landscape orientation for PDF output.",
+  },
+  {
+    key: "pdfMargin",
+    label: "PDF Margins",
+    type: "text" as const,
+    required: false,
+    helpText:
+      'JSON object: {"top":"1cm","right":"1cm","bottom":"1cm","left":"1cm"}. CSS units.',
+  },
+  {
+    key: "pdfPrintBackground",
+    label: "PDF Print Background",
+    type: "boolean" as const,
+    default: "true",
+    required: false,
+    helpText: "Print background colors/images. Default: true.",
+  },
+  {
+    key: "pdfScale",
+    label: "PDF Scale",
+    type: "number" as const,
+    required: false,
+    helpText: "PDF scale factor (0.1–2). Default: 1.",
   },
 ];
+
+// Dynamic wrapper — returns PDF fields only when Output Format is PDF.
+// Used by Screenshot Capture and Capture Async to hide PDF-specific
+// fields when the user is capturing an image.
+const pdfDynamicFields = (_z: ZObject, bundle: Bundle) => {
+  const format = (bundle.inputData?.format as string) || "png";
+  if (format !== "pdf") return [];
+  return pdfFieldsArray;
+};
 
 const advancedFields = [
   {
@@ -158,45 +232,6 @@ const advancedFields = [
     helpText: "JavaScript to execute before capture. Max 50 KB.",
   },
   {
-    key: "pdfFormat",
-    label: "PDF Page Size",
-    type: "string" as const,
-    choices: { A3: "A3", A4: "A4", Legal: "Legal", Letter: "Letter", Tabloid: "Tabloid" },
-    required: false,
-    helpText: "PDF page size. Only used when format is PDF. Default: A4.",
-  },
-  {
-    key: "pdfLandscape",
-    label: "PDF Landscape",
-    type: "boolean" as const,
-    default: "false",
-    required: false,
-    helpText: "Landscape orientation for PDF output.",
-  },
-  {
-    key: "pdfMargin",
-    label: "PDF Margins",
-    type: "text" as const,
-    required: false,
-    helpText:
-      'JSON object: {"top":"1cm","right":"1cm","bottom":"1cm","left":"1cm"}. CSS units.',
-  },
-  {
-    key: "pdfPrintBackground",
-    label: "PDF Print Background",
-    type: "boolean" as const,
-    default: "true",
-    required: false,
-    helpText: "Print background colors/images in PDF output. Default: true.",
-  },
-  {
-    key: "pdfScale",
-    label: "PDF Scale",
-    type: "number" as const,
-    required: false,
-    helpText: "PDF scale factor (0.1–2). Default: 1.",
-  },
-  {
     key: "quality",
     label: "Quality",
     type: "integer" as const,
@@ -258,4 +293,11 @@ const advancedFields = [
   },
 ];
 
-export { sourceFields, advancedFields };
+export {
+  sourceTypeField,
+  sourceValueFields,
+  formatField,
+  pdfFieldsArray,
+  pdfDynamicFields,
+  advancedFields,
+};

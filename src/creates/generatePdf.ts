@@ -1,5 +1,10 @@
 import { SCREENSHOT_JSON_ENDPOINT } from "../constants";
-import { sourceFields, advancedFields } from "../fields/screenshotFields";
+import {
+  sourceTypeField,
+  sourceValueFields,
+  pdfFieldsArray,
+  advancedFields,
+} from "../fields/screenshotFields";
 import { buildRequestBody } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
@@ -39,11 +44,13 @@ export default {
   display: {
     label: "Generate PDF",
     description:
-      "Generate a PDF document from a webpage or HTML snippet. Supports custom page sizes, margins, and landscape orientation.",
+      "Generate a PDF document from a webpage or HTML snippet synchronously. Supports custom page sizes, margins, and landscape orientation. For long-form or heavy pages, prefer Capture Screenshot (Async) with Format = PDF — Zapier's 30-second action timeout often trips on large sync PDF renders.",
   },
   operation: {
     inputFields: [
-      ...sourceFields,
+      sourceTypeField,
+      sourceValueFields,
+      ...pdfFieldsArray,
       ...advancedFields,
     ],
     perform,

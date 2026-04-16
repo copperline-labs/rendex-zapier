@@ -1,5 +1,11 @@
 import { SCREENSHOT_JSON_ENDPOINT } from "../constants";
-import { sourceFields, advancedFields } from "../fields/screenshotFields";
+import {
+  sourceTypeField,
+  sourceValueFields,
+  formatField,
+  pdfDynamicFields,
+  advancedFields,
+} from "../fields/screenshotFields";
 import { buildRequestBody } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
@@ -40,11 +46,14 @@ export default {
   display: {
     label: "Capture Screenshot",
     description:
-      "Capture a screenshot of a webpage or HTML snippet. Returns a PNG, JPEG, or WebP image file.",
+      "Capture a screenshot of a webpage or HTML snippet. Returns a PNG, JPEG, or WebP image file synchronously. For heavy pages (full-page scrolls of news sites, e-commerce, or dashboards), use Capture Screenshot (Async) instead — Zapier's 30-second action timeout often trips on large sync captures.",
   },
   operation: {
     inputFields: [
-      ...sourceFields,
+      sourceTypeField,
+      sourceValueFields,
+      formatField,
+      pdfDynamicFields,
       ...advancedFields,
     ],
     perform,

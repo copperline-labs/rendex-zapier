@@ -1,38 +1,31 @@
-declare const sourceFields: ({
+import type { Bundle, ZObject } from "zapier-platform-core";
+declare const sourceTypeField: {
     key: string;
     label: string;
     type: "string";
     choices: {
         url: string;
         html: string;
-        png?: undefined;
-        jpeg?: undefined;
-        webp?: undefined;
-        pdf?: undefined;
     };
     default: string;
     required: boolean;
     helpText: string;
     altersDynamicFields: boolean;
-} | {
-    key: string;
-    label: string;
-    type: "string";
-    required: boolean;
-    helpText: string;
-    choices?: undefined;
-    default?: undefined;
-    altersDynamicFields?: undefined;
-} | {
+};
+declare const sourceValueFields: (_z: ZObject, bundle: Bundle) => {
     key: string;
     label: string;
     type: "text";
     required: boolean;
     helpText: string;
-    choices?: undefined;
-    default?: undefined;
-    altersDynamicFields?: undefined;
-} | {
+}[] | {
+    key: string;
+    label: string;
+    type: "string";
+    required: boolean;
+    helpText: string;
+}[];
+declare const formatField: {
     key: string;
     label: string;
     type: "string";
@@ -41,13 +34,89 @@ declare const sourceFields: ({
         jpeg: string;
         webp: string;
         pdf: string;
-        url?: undefined;
-        html?: undefined;
     };
     default: string;
     required: boolean;
     helpText: string;
-    altersDynamicFields?: undefined;
+    altersDynamicFields: boolean;
+};
+declare const pdfFieldsArray: ({
+    key: string;
+    label: string;
+    type: "string";
+    choices: {
+        A3: string;
+        A4: string;
+        Legal: string;
+        Letter: string;
+        Tabloid: string;
+    };
+    default: string;
+    required: boolean;
+    helpText: string;
+} | {
+    key: string;
+    label: string;
+    type: "boolean";
+    default: string;
+    required: boolean;
+    helpText: string;
+    choices?: undefined;
+} | {
+    key: string;
+    label: string;
+    type: "text";
+    required: boolean;
+    helpText: string;
+    choices?: undefined;
+    default?: undefined;
+} | {
+    key: string;
+    label: string;
+    type: "number";
+    required: boolean;
+    helpText: string;
+    choices?: undefined;
+    default?: undefined;
+})[];
+declare const pdfDynamicFields: (_z: ZObject, bundle: Bundle) => ({
+    key: string;
+    label: string;
+    type: "string";
+    choices: {
+        A3: string;
+        A4: string;
+        Legal: string;
+        Letter: string;
+        Tabloid: string;
+    };
+    default: string;
+    required: boolean;
+    helpText: string;
+} | {
+    key: string;
+    label: string;
+    type: "boolean";
+    default: string;
+    required: boolean;
+    helpText: string;
+    choices?: undefined;
+} | {
+    key: string;
+    label: string;
+    type: "text";
+    required: boolean;
+    helpText: string;
+    choices?: undefined;
+    default?: undefined;
+} | {
+    key: string;
+    label: string;
+    type: "number";
+    required: boolean;
+    helpText: string;
+    choices?: undefined;
+    default?: undefined;
 })[];
 declare const advancedFields: ({
     key: string;
@@ -84,32 +153,6 @@ declare const advancedFields: ({
 } | {
     key: string;
     label: string;
-    type: "string";
-    choices: {
-        A3: string;
-        A4: string;
-        Legal: string;
-        Letter: string;
-        Tabloid: string;
-        domcontentloaded?: undefined;
-        load?: undefined;
-        networkidle0?: undefined;
-        networkidle2?: undefined;
-    };
-    required: boolean;
-    helpText: string;
-    default?: undefined;
-} | {
-    key: string;
-    label: string;
-    type: "number";
-    required: boolean;
-    helpText: string;
-    default?: undefined;
-    choices?: undefined;
-} | {
-    key: string;
-    label: string;
     type: "integer";
     required: boolean;
     helpText: string;
@@ -124,15 +167,10 @@ declare const advancedFields: ({
         load: string;
         networkidle0: string;
         networkidle2: string;
-        A3?: undefined;
-        A4?: undefined;
-        Legal?: undefined;
-        Letter?: undefined;
-        Tabloid?: undefined;
     };
     default: string;
     required: boolean;
     helpText: string;
 })[];
-export { sourceFields, advancedFields };
+export { sourceTypeField, sourceValueFields, formatField, pdfFieldsArray, pdfDynamicFields, advancedFields, };
 //# sourceMappingURL=screenshotFields.d.ts.map

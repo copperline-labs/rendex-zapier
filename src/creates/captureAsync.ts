@@ -1,6 +1,12 @@
 import { SCREENSHOT_ENDPOINT } from "../constants";
-import { sourceFields, advancedFields } from "../fields/screenshotFields";
-import { buildRequestBody } from "../lib/request";
+import {
+  sourceTypeField,
+  sourceValueFields,
+  formatField,
+  pdfDynamicFields,
+  advancedFields,
+} from "../fields/screenshotFields";
+import { buildRequestBody, normalizeUrl } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
 const asyncFields = [
@@ -30,7 +36,7 @@ const perform = async (z: ZObject, bundle: Bundle) => {
   });
 
   if (bundle.inputData.webhookUrl) {
-    body.webhookUrl = bundle.inputData.webhookUrl;
+    body.webhookUrl = normalizeUrl(bundle.inputData.webhookUrl);
   }
   if (bundle.inputData.cacheTtl) {
     body.cacheTtl = parseInt(bundle.inputData.cacheTtl as string, 10);
@@ -63,7 +69,10 @@ export default {
   },
   operation: {
     inputFields: [
-      ...sourceFields,
+      sourceTypeField,
+      sourceValueFields,
+      formatField,
+      pdfDynamicFields,
       ...advancedFields,
       ...asyncFields,
     ],

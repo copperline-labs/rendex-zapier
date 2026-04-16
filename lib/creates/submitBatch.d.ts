@@ -42,32 +42,6 @@ declare const _default: {
         } | {
             key: string;
             label: string;
-            type: "string";
-            choices: {
-                A3: string;
-                A4: string;
-                Legal: string;
-                Letter: string;
-                Tabloid: string;
-                domcontentloaded?: undefined;
-                load?: undefined;
-                networkidle0?: undefined;
-                networkidle2?: undefined;
-            };
-            required: boolean;
-            helpText: string;
-            default?: undefined;
-        } | {
-            key: string;
-            label: string;
-            type: "number";
-            required: boolean;
-            helpText: string;
-            default?: undefined;
-            choices?: undefined;
-        } | {
-            key: string;
-            label: string;
             type: "integer";
             required: boolean;
             helpText: string;
@@ -82,11 +56,6 @@ declare const _default: {
                 load: string;
                 networkidle0: string;
                 networkidle2: string;
-                A3?: undefined;
-                A4?: undefined;
-                Legal?: undefined;
-                Letter?: undefined;
-                Tabloid?: undefined;
             };
             default: string;
             required: boolean;

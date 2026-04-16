@@ -1,5 +1,6 @@
 import { BATCH_ENDPOINT } from "../constants";
 import { advancedFields } from "../fields/screenshotFields";
+import { normalizeUrl } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
 const batchFields = [
@@ -43,7 +44,8 @@ const perform = async (z: ZObject, bundle: Bundle) => {
   const urls = urlsRaw
     .split("\n")
     .map((u: string) => u.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((u: string) => normalizeUrl(u));
 
   if (urls.length === 0) {
     throw new z.errors.Error("At least one URL is required.", "ValidationError", 400);
@@ -66,7 +68,7 @@ const perform = async (z: ZObject, bundle: Bundle) => {
   if (input.fullPage === "true" || input.fullPage === true) defaults.fullPage = true;
 
   const body: Record<string, unknown> = { urls, defaults };
-  if (input.webhookUrl) body.webhookUrl = input.webhookUrl;
+  if (input.webhookUrl) body.webhookUrl = normalizeUrl(input.webhookUrl);
   if (input.cacheTtl) body.cacheTtl = parseInt(input.cacheTtl as string, 10);
 
   const response = await z.request({
