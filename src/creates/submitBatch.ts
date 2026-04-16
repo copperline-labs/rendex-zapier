@@ -10,7 +10,7 @@ const batchFields = [
     type: "text" as const,
     required: true,
     helpText:
-      "Newline-separated list of URLs to capture (1–500). Each URL becomes an individual job.",
+      "Newline-separated list of URLs to capture. Each URL becomes an individual screenshot job. Maximum batch size depends on your Rendex plan (separate from your Zapier plan): Free = 5, Starter = 25, Pro = 100, Enterprise = 500. Requests exceeding your Rendex plan's limit return a 403 PLAN_UPGRADE_REQUIRED error. See https://rendex.dev/pricing.",
   },
   {
     key: "format",
@@ -93,7 +93,7 @@ export default {
   display: {
     label: "Submit Batch",
     description:
-      "Submit up to 500 URLs for batch screenshot capture. Returns a batch ID — use Get Batch Status to check results.",
+      "Submit a list of URLs for parallel screenshot or PDF capture. Returns a Batch ID immediately — this step does NOT return the finished images by itself.\n\nMaximum URLs per batch depends on your Rendex plan (separate from your Zapier plan): Free = 5, Starter = 25, Pro = 100, Enterprise = 500.\n\nTo retrieve the finished captures, add a 'Get Batch Status' step after this one (pass the Batch ID from this step). For large batches consider inserting a 'Delay by Zapier' step, or set a Webhook URL to receive results automatically when the full batch completes.",
   },
   operation: {
     inputFields: [

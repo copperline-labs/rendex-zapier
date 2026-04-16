@@ -141,11 +141,11 @@ const advancedFields = [
   },
   {
     key: "cookies",
-    label: "Cookies",
+    label: "Cookies (Rendex paid plan)",
     type: "text" as const,
     required: false,
     helpText:
-      'JSON array of cookies: [{"name":"session","value":"abc","domain":"example.com"}]. Max 50.',
+      'JSON array of cookies: [{"name":"session","value":"abc","domain":"example.com"}]. Max 50. Requires a Rendex paid plan (Starter, Pro, or Enterprise) — this is separate from your Zapier plan. Free Rendex keys will receive a 403 PLAN_UPGRADE_REQUIRED error. Upgrade at https://rendex.dev/pricing.',
   },
   {
     key: "css",
@@ -212,11 +212,11 @@ const advancedFields = [
   },
   {
     key: "headers",
-    label: "Custom Headers",
+    label: "Custom Headers (Rendex paid plan)",
     type: "text" as const,
     required: false,
     helpText:
-      'JSON object of HTTP headers: {"X-Custom":"value"}. Cannot override Host, Connection, Content-Length, Transfer-Encoding.',
+      'JSON object of HTTP headers: {"X-Custom":"value"}. Cannot override Host, Connection, Content-Length, Transfer-Encoding. Requires a Rendex paid plan (Starter, Pro, or Enterprise) — this is separate from your Zapier plan. Free Rendex keys will receive a 403 PLAN_UPGRADE_REQUIRED error. Upgrade at https://rendex.dev/pricing.',
   },
   {
     key: "height",
