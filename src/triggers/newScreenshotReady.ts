@@ -1,29 +1,10 @@
-import { createHmac } from "crypto";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
-const triggerFields = [
-  {
-    key: "webhookSigningSecret",
-    label: "Webhook Signing Secret",
-    type: "string" as const,
-    required: false,
-    helpText:
-      "Optional. If provided, incoming webhooks are verified against this HMAC-SHA256 secret. Available in your Rendex dashboard under webhook settings.",
-  },
-];
-
-function verifySignature(
-  body: string,
-  secret: string,
-  signature: string,
-  timestamp: string,
-): boolean {
-  const message = `${timestamp}.${body}`;
-  const expected = createHmac("sha256", secret)
-    .update(message)
-    .digest("hex");
-  return expected === signature;
-}
+// Zapier's webhook URL is unique and unguessable, so we rely on URL
+// obscurity rather than HMAC verification on this side — matching the
+// pattern Stripe, GitHub, and Shopify use in their Zapier integrations.
+// If per-user webhook signing secrets become available in the Rendex
+// dashboard in a future release, we'll add a field and verification here.
 
 const performSubscribe = async (z: ZObject, bundle: Bundle) => {
   // Rendex uses per-job webhooks (pass webhookUrl with each capture),
@@ -38,32 +19,7 @@ const performUnsubscribe = async (_z: ZObject, _bundle: Bundle) => {
   return {};
 };
 
-const perform = async (z: ZObject, bundle: Bundle) => {
-  const rawBody = bundle.rawRequest?.content || "";
-  const headers = bundle.rawRequest?.headers || {};
-
-  const secret = bundle.inputData.webhookSigningSecret as string | undefined;
-  if (secret) {
-    const signature = headers["x-rendex-signature"] || "";
-    const timestamp = headers["x-rendex-timestamp"] || "";
-
-    if (!signature || !timestamp) {
-      throw new z.errors.HaltedError(
-        "Missing x-rendex-signature or x-rendex-timestamp headers.",
-      );
-    }
-
-    if (!verifySignature(rawBody, secret, signature, timestamp)) {
-      throw new z.errors.HaltedError("Webhook signature verification failed.");
-    }
-
-    const ts = parseInt(timestamp, 10);
-    const fiveMinutes = 300;
-    if (Math.abs(Date.now() / 1000 - ts) > fiveMinutes) {
-      throw new z.errors.HaltedError("Webhook timestamp too old (replay attack prevention).");
-    }
-  }
-
+const perform = async (_z: ZObject, bundle: Bundle) => {
   const payload = bundle.cleanedRequest;
 
   return [
@@ -116,7 +72,6 @@ export default {
     performUnsubscribe,
     perform,
     performList,
-    inputFields: triggerFields,
     sample: {
       id: "job_sample_001",
       event: "job.completed",

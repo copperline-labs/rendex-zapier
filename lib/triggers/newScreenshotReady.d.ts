@@ -12,7 +12,7 @@ declare const _default: {
             targetUrl: string | undefined;
         }>;
         performUnsubscribe: (_z: ZObject, _bundle: Bundle) => Promise<{}>;
-        perform: (z: ZObject, bundle: Bundle) => Promise<{
+        perform: (_z: ZObject, bundle: Bundle) => Promise<{
             id: any;
             event: any;
             jobId: any;
@@ -38,13 +38,6 @@ declare const _default: {
             completedJobs: null;
             failedJobs: null;
         }[]>;
-        inputFields: {
-            key: string;
-            label: string;
-            type: "string";
-            required: boolean;
-            helpText: string;
-        }[];
         sample: {
             id: string;
             event: string;

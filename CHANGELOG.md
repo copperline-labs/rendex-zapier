@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.7
+
+Remove the optional "Webhook Signing Secret" field from the New Screenshot Ready trigger. The feature referenced a dashboard page that doesn't exist — Rendex currently uses a single server-side signing key rather than per-user secrets. Zapier's webhook URL is already unique and unguessable, matching the security model used by Stripe, GitHub, and Shopify Zapier integrations. Per-user webhook signing will return in a future version once the dashboard supports it.
+
 ## 1.0.6
 
 Initial public release.

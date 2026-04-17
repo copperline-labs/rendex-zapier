@@ -42,7 +42,7 @@ declare const _default: {
                     targetUrl: string | undefined;
                 }>;
                 performUnsubscribe: (_z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{}>;
-                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
+                perform: (_z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
                     id: any;
                     event: any;
                     jobId: any;
@@ -68,13 +68,6 @@ declare const _default: {
                     completedJobs: null;
                     failedJobs: null;
                 }[]>;
-                inputFields: {
-                    key: string;
-                    label: string;
-                    type: "string";
-                    required: boolean;
-                    helpText: string;
-                }[];
                 sample: {
                     id: string;
                     event: string;
