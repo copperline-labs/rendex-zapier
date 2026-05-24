@@ -3,7 +3,7 @@
   "version": "1.0.7",
   "description": "Rendex screenshot & rendering API integration for Zapier — capture screenshots, generate PDFs, and process batches directly from your Zaps.",
   "main": "lib/index.js",
-  "author": "Copperline Labs <admin@copperlinelabs.com> (https://copperlinelabs.com)",
+  "author": "Copperline Labs <support@rendex.dev> (https://copperlinelabs.com)",
   "license": "MIT",
   "homepage": "https://rendex.dev",
   "repository": {

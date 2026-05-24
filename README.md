@@ -42,7 +42,7 @@ npm run generate-logo
 
 ## Deployment
 
-This package is deployed via the Zapier Platform CLI from the public mirror repo [copperline-labs/rendex-zapier](https://github.com/copperline-labs/rendex-zapier). See the release runbook for the full release flow.
+This package is the source for the Rendex Zapier integration, deployed to the Zapier platform via the Zapier Platform CLI. Contributions are welcome — see [CONTRIBUTING](https://github.com/copperline-labs/.github/blob/main/CONTRIBUTING.md).
 
 ```bash
 zapier push       # Upload to Zapier
