@@ -6,7 +6,7 @@ import {
   pdfDynamicFields,
   advancedFields,
 } from "../fields/screenshotFields";
-import { buildRequestBody, normalizeUrl } from "../lib/request";
+import { buildRequestBody, validateOptionalWebhookUrl } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
 const asyncFields = [
@@ -16,7 +16,7 @@ const asyncFields = [
     type: "string" as const,
     required: false,
     helpText:
-      "URL to receive an HMAC-signed POST when the capture completes. If omitted, poll via Get Job Status.",
+      "Optional. Want another Zap to run automatically when this screenshot finishes? Create a second Zap, pick 'Webhooks by Zapier → Catch Hook' as its trigger, copy the Catch Hook URL Zapier gives you, and paste it here. Leave empty to check the result with a 'Get Job Status' step later, or to use the 'New Completed Screenshot' trigger instead.",
   },
   {
     key: "cacheTtl",
@@ -35,8 +35,21 @@ const perform = async (z: ZObject, bundle: Bundle) => {
     async: true,
   });
 
-  if (bundle.inputData.webhookUrl) {
-    body.webhookUrl = normalizeUrl(bundle.inputData.webhookUrl);
+  let validatedWebhookUrl: string | undefined;
+  try {
+    validatedWebhookUrl = validateOptionalWebhookUrl(
+      bundle.inputData.webhookUrl,
+      "Webhook URL",
+    );
+  } catch (err) {
+    throw new z.errors.Error(
+      err instanceof Error ? err.message : String(err),
+      "VALIDATION_ERROR",
+      400,
+    );
+  }
+  if (validatedWebhookUrl) {
+    body.webhookUrl = validatedWebhookUrl;
   }
   if (bundle.inputData.cacheTtl) {
     body.cacheTtl = parseInt(bundle.inputData.cacheTtl as string, 10);
@@ -64,8 +77,7 @@ export default {
   noun: "Background Screenshot Job",
   display: {
     label: "Capture Screenshot (Background)",
-    description:
-      "Queue a screenshot or PDF job for large or slow pages. This step returns a Job ID right away — it does NOT return the finished image by itself.\n\nTo receive the actual screenshot, choose one of these patterns:\n\n• Add a 'Get Job Status' step after this one (pass the Job ID from this step). Add a short Delay (10–30 seconds) between them for big pages.\n\n• Or fill in the Webhook URL field to have Rendex POST the result to another Zap or endpoint automatically when the capture finishes — no polling needed.\n\nUse this action (instead of Capture Screenshot) for full-page captures of news sites, e-commerce, long dashboards, or any page that might take more than 25 seconds to render.",
+    description: "Queues a screenshot or PDF capture as a background job and returns a Job ID.",
   },
   operation: {
     inputFields: [

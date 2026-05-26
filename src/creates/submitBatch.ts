@@ -1,7 +1,54 @@
 import { BATCH_ENDPOINT } from "../constants";
-import { advancedFields } from "../fields/screenshotFields";
-import { normalizeUrl } from "../lib/request";
+import { advancedFields, pdfFieldsArray } from "../fields/screenshotFields";
+import { buildRequestBody, normalizeUrl, validateOptionalWebhookUrl } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
+
+// Advanced options accepted as batch `defaults`. The /v1/screenshot/batch
+// endpoint validates `defaults` with CaptureParamsSchema, which strips
+// per-job-only params — so cookies, headers, selector, blockResourceTypes,
+// waitForSelector, and pdfMargin are intentionally NOT offered here (the API
+// would silently drop them). Everything CaptureParamsSchema accepts is exposed.
+const BATCH_DEFAULT_KEYS = [
+  "bestAttempt",
+  "blockAds",
+  "css",
+  "darkMode",
+  "delay",
+  "deviceScaleFactor",
+  "fullPage",
+  "geo",
+  "geoCity",
+  "geoState",
+  "height",
+  "js",
+  "quality",
+  "timeout",
+  "userAgent",
+  "waitUntil",
+  "width",
+];
+
+// Keys buildRequestBody may set that the batch defaults schema rejects.
+const BATCH_STRIPPED_KEYS = [
+  "url",
+  "html",
+  "markdown",
+  "async",
+  "cookies",
+  "headers",
+  "selector",
+  "blockResourceTypes",
+  "waitForSelector",
+  "pdfMargin",
+];
+
+// PDF page options appear only when Output Format is PDF. pdfMargin is omitted
+// because the batch defaults schema (CaptureParamsSchema) doesn't accept it.
+const batchPdfDynamicFields = (_z: ZObject, bundle: Bundle) => {
+  const format = (bundle.inputData?.format as string) || "png";
+  if (format !== "pdf") return [];
+  return pdfFieldsArray.filter((f) => f.key !== "pdfMargin");
+};
 
 const batchFields = [
   {
@@ -10,7 +57,7 @@ const batchFields = [
     type: "text" as const,
     required: true,
     helpText:
-      "Newline-separated list of URLs to capture. Each URL becomes an individual screenshot job. Maximum batch size depends on your Rendex plan (separate from your Zapier plan): Free = 5, Starter = 25, Pro = 100, Enterprise = 500. Requests exceeding your Rendex plan's limit return a 403 PLAN_UPGRADE_REQUIRED error. See https://rendex.dev/pricing.",
+      "Newline-separated list of URLs to capture. Each URL becomes an individual screenshot job. Maximum batch size depends on your Rendex plan (separate from your Zapier plan). Free plan allows 5 URLs per batch. Starter plan allows 25. Pro plan allows 100. Enterprise plan allows 500. Requests exceeding your Rendex plan limit return a 403 PLAN_UPGRADE_REQUIRED error.",
   },
   {
     key: "format",
@@ -19,7 +66,8 @@ const batchFields = [
     choices: { png: "PNG", jpeg: "JPEG", webp: "WebP", pdf: "PDF" },
     default: "png",
     required: false,
-    helpText: "Format applied to all URLs in the batch.",
+    helpText: "Format applied to all URLs in the batch. Choose PDF to reveal PDF page options.",
+    altersDynamicFields: true,
   },
   {
     key: "webhookUrl",
@@ -27,7 +75,7 @@ const batchFields = [
     type: "string" as const,
     required: false,
     helpText:
-      "URL to receive a POST when the entire batch completes.",
+      "Optional. Want another Zap to run when the entire batch finishes? Create a second Zap, pick 'Webhooks by Zapier → Catch Hook' as its trigger, copy the URL Zapier gives you, and paste it here. Leave empty to poll with 'Get Batch Status' instead.",
   },
   {
     key: "cacheTtl",
@@ -54,21 +102,26 @@ const perform = async (z: ZObject, bundle: Bundle) => {
     throw new z.errors.Error("Maximum 500 URLs per batch.", "ValidationError", 400);
   }
 
-  const defaults: Record<string, unknown> = {};
   const input = bundle.inputData as Record<string, unknown>;
 
-  if (input.format) defaults.format = input.format;
-  if (input.width) defaults.width = parseInt(input.width as string, 10);
-  if (input.height) defaults.height = parseInt(input.height as string, 10);
-  if (input.deviceScaleFactor) defaults.deviceScaleFactor = parseInt(input.deviceScaleFactor as string, 10);
-  if (input.darkMode === "true" || input.darkMode === true) defaults.darkMode = true;
-  if (input.blockAds === "false" || input.blockAds === false) defaults.blockAds = false;
-  if (input.timeout) defaults.timeout = parseInt(input.timeout as string, 10);
-  if (input.waitUntil) defaults.waitUntil = input.waitUntil;
-  if (input.fullPage === "true" || input.fullPage === true) defaults.fullPage = true;
+  // Reuse the single-capture coercion, then strip params the batch defaults
+  // schema (CaptureParamsSchema) rejects, so we never imply unsupported fields.
+  const defaults = buildRequestBody(input);
+  for (const key of BATCH_STRIPPED_KEYS) delete defaults[key];
 
   const body: Record<string, unknown> = { urls, defaults };
-  if (input.webhookUrl) body.webhookUrl = normalizeUrl(input.webhookUrl);
+
+  let validatedWebhookUrl: string | undefined;
+  try {
+    validatedWebhookUrl = validateOptionalWebhookUrl(input.webhookUrl, "Webhook URL");
+  } catch (err) {
+    throw new z.errors.Error(
+      err instanceof Error ? err.message : String(err),
+      "VALIDATION_ERROR",
+      400,
+    );
+  }
+  if (validatedWebhookUrl) body.webhookUrl = validatedWebhookUrl;
   if (input.cacheTtl) body.cacheTtl = parseInt(input.cacheTtl as string, 10);
 
   const response = await z.request({
@@ -92,17 +145,13 @@ export default {
   noun: "Batch",
   display: {
     label: "Submit Batch",
-    description:
-      "Submit a list of URLs for parallel screenshot or PDF capture. Returns a Batch ID immediately — this step does NOT return the finished images by itself.\n\nMaximum URLs per batch depends on your Rendex plan (separate from your Zapier plan): Free = 5, Starter = 25, Pro = 100, Enterprise = 500.\n\nTo retrieve the finished captures, add a 'Get Batch Status' step after this one (pass the Batch ID from this step). For large batches consider inserting a 'Delay by Zapier' step, or set a Webhook URL to receive results automatically when the full batch completes.",
+    description: "Submits a list of URLs for parallel screenshot or PDF capture and returns a Batch ID.",
   },
   operation: {
     inputFields: [
       ...batchFields,
-      ...advancedFields.filter((f) =>
-        ["width", "height", "deviceScaleFactor", "darkMode", "blockAds", "timeout", "waitUntil", "fullPage", "format"].includes(f.key) === false
-          ? ["width", "height", "deviceScaleFactor", "darkMode", "blockAds", "timeout", "waitUntil", "fullPage"].includes(f.key)
-          : false,
-      ),
+      ...advancedFields.filter((f) => BATCH_DEFAULT_KEYS.includes(f.key)),
+      batchPdfDynamicFields,
     ],
     perform,
     sample: {

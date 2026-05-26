@@ -22,8 +22,7 @@ export default {
   noun: "Job",
   display: {
     label: "Get Job Status",
-    description:
-      "Check on a background screenshot job and retrieve the finished image.\n\nUse this after 'Capture Screenshot (Background)'. Pass the Job ID from that step, and this action returns the status ('queued', 'processing', 'succeeded', or 'failed') plus a signed Result URL pointing at the image once it's ready.\n\nMost jobs finish in 5–30 seconds. For long pages, insert a 'Delay by Zapier' step between the Background capture and this action.",
+    description: "Finds a background job by ID and returns its status and result URL.",
   },
   operation: {
     inputFields: [
@@ -32,8 +31,9 @@ export default {
         label: "Job ID",
         type: "string" as const,
         required: true,
+        dynamic: "list_jobs.jobId.label",
         helpText:
-          "The Job ID returned by 'Capture Screenshot (Background)'. Use the data picker to pull it directly from that step's output — don't paste manually.",
+          "The Job ID to look up. The dropdown lists your 25 most recent jobs; you can also map the Job ID from a preceding 'Capture Screenshot (Background)' step using Zapier's data picker.",
       },
     ],
     perform,

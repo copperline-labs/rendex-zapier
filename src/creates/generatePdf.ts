@@ -1,4 +1,4 @@
-import { SCREENSHOT_JSON_ENDPOINT } from "../constants";
+import { SCREENSHOT_ENDPOINT, JOBS_ENDPOINT } from "../constants";
 import {
   sourceTypeField,
   sourceValueFields,
@@ -8,33 +8,83 @@ import {
 import { buildRequestBody } from "../lib/request";
 import type { Bundle, ZObject } from "zapier-platform-core";
 
-const perform = async (z: ZObject, bundle: Bundle) => {
-  const body = buildRequestBody({ ...bundle.inputData, format: "pdf" });
+// Same async-with-polling pattern as Capture Screenshot. PDF renders are
+// often longer than image captures because the page has to fully paint
+// before PDF export can serialize, so the cold-start risk on Cloudflare
+// Browser Rendering is even higher here than for screenshots.
 
-  const response = await z.request({
+const POLL_INTERVAL_MS = 2000;
+const POLL_MAX_ATTEMPTS = 12;
+
+const perform = async (z: ZObject, bundle: Bundle) => {
+  const baseBody = buildRequestBody({ ...bundle.inputData, format: "pdf" });
+  const body = {
+    ...baseBody,
+    async: true,
+    bestAttempt: baseBody.bestAttempt ?? true,
+  };
+
+  const submitResponse = await z.request({
     method: "POST",
-    url: SCREENSHOT_JSON_ENDPOINT,
+    url: SCREENSHOT_ENDPOINT,
     body,
   });
+  const submitData = submitResponse.json?.data ?? submitResponse.json;
+  const jobId = submitData?.jobId;
+  if (!jobId) {
+    throw new z.errors.Error(
+      "Rendex did not return a Job ID. Please retry or contact support.",
+      "CAPTURE_FAILED",
+      502,
+    );
+  }
 
-  const data = response.json?.data ?? response.json;
-  const image = data.image;
-  const filename = `rendex-${Date.now()}.pdf`;
+  for (let attempt = 0; attempt < POLL_MAX_ATTEMPTS; attempt++) {
+    await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
 
-  const buffer = Buffer.from(image, "base64");
-  const file = await z.stashFile(buffer, buffer.length, filename, "application/pdf");
+    const pollResponse = await z.request({
+      method: "GET",
+      url: `${JOBS_ENDPOINT}/${jobId}`,
+    });
+    const job = pollResponse.json?.data ?? pollResponse.json;
+
+    if (job?.status === "completed" && job.resultUrl) {
+      const filename = `rendex-${jobId}.pdf`;
+      const imageResponse = await fetch(job.resultUrl);
+      const buffer = Buffer.from(await imageResponse.arrayBuffer());
+      const file = await z.stashFile(buffer, buffer.length, filename, "application/pdf");
+
+      return {
+        file,
+        contentType: "application/pdf",
+        url: (bundle.inputData.url as string) || null,
+        format: "pdf" as const,
+        jobId,
+        status: "completed" as const,
+        capturedAt: job.completedAt,
+        message: "PDF generated successfully.",
+      };
+    }
+
+    if (job?.status === "failed") {
+      throw new z.errors.Error(
+        job.error || "PDF generation failed.",
+        "CAPTURE_FAILED",
+        502,
+      );
+    }
+  }
 
   return {
-    file,
-    contentType: "application/pdf",
-    url: data.url,
-    width: data.width,
-    height: data.height,
-    format: "pdf",
-    bytesSize: data.bytesSize,
-    capturedAt: data.capturedAt,
-    quality: data.quality,
-    loadTimeMs: data.loadTimeMs,
+    file: null,
+    contentType: null,
+    url: (bundle.inputData.url as string) || null,
+    format: "pdf" as const,
+    jobId,
+    status: "still_processing" as const,
+    capturedAt: null,
+    message:
+      "The PDF is still rendering — that's normal for long documents. Add a 'Get Job Status' step after this one and pass the Job ID above to retrieve the finished PDF once it's ready.",
   };
 };
 
@@ -43,8 +93,7 @@ export default {
   noun: "PDF",
   display: {
     label: "Generate PDF",
-    description:
-      "Generate a PDF document from a webpage or HTML snippet and receive the file immediately in this step. Supports custom page sizes, margins, and landscape orientation.\n\nBest for: invoices, receipts, short reports, single-page documents.\n\nFor long or heavy PDFs (multi-page reports, full-length articles, complex dashboards) use 'Capture Screenshot (Background)' with Output Format = PDF — Zap steps time out after 30 seconds and large PDF renders often exceed that.",
+    description: "Generates a PDF from a webpage or HTML with custom page size, margins, and orientation.",
   },
   operation: {
     inputFields: [
@@ -58,13 +107,11 @@ export default {
       file: "https://example.com/document.pdf",
       contentType: "application/pdf",
       url: "https://example.com",
-      width: 1280,
-      height: 800,
       format: "pdf",
-      bytesSize: 120000,
-      capturedAt: "2026-04-15T12:00:00.000Z",
-      quality: "full",
-      loadTimeMs: 4200,
+      jobId: "job_abc123def456",
+      status: "completed",
+      capturedAt: "2026-04-15T12:00:05.000Z",
+      message: "PDF generated successfully.",
     },
   },
 };

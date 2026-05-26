@@ -14,6 +14,7 @@ declare const _default: {
             choices: {
                 url: string;
                 html: string;
+                markdown: string;
             };
             default: string;
             required: boolean;
@@ -110,26 +111,31 @@ declare const _default: {
         perform: (z: ZObject, bundle: Bundle) => Promise<{
             file: string;
             contentType: string;
-            url: any;
-            width: any;
-            height: any;
-            format: string;
-            bytesSize: any;
+            url: string | null;
+            format: "pdf";
+            jobId: any;
+            status: "completed";
             capturedAt: any;
-            quality: any;
-            loadTimeMs: any;
+            message: string;
+        } | {
+            file: null;
+            contentType: null;
+            url: string | null;
+            format: "pdf";
+            jobId: any;
+            status: "still_processing";
+            capturedAt: null;
+            message: string;
         }>;
         sample: {
             file: string;
             contentType: string;
             url: string;
-            width: number;
-            height: number;
             format: string;
-            bytesSize: number;
+            jobId: string;
+            status: string;
             capturedAt: string;
-            quality: string;
-            loadTimeMs: number;
+            message: string;
         };
     };
 };

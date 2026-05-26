@@ -10,7 +10,9 @@ import submitBatch from "./creates/submitBatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 
-import newScreenshotReady from "./triggers/newScreenshotReady";
+import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
+import listJobs from "./triggers/listJobs";
+import listBatches from "./triggers/listBatches";
 
 export default {
   version: require("../package.json").version,
@@ -27,7 +29,9 @@ export default {
   },
 
   triggers: {
-    [newScreenshotReady.key]: newScreenshotReady,
+    [newCompletedScreenshot.key]: newCompletedScreenshot,
+    [listJobs.key]: listJobs,
+    [listBatches.key]: listBatches,
   },
 
   creates: {

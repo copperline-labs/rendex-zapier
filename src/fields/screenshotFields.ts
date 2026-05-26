@@ -11,17 +11,18 @@ const sourceTypeField = {
   key: "source",
   label: "Source Type",
   type: "string" as const,
-  choices: { url: "URL", html: "Raw HTML" },
+  choices: { url: "URL", html: "Raw HTML", markdown: "Markdown" },
   default: "url",
   required: true,
-  helpText: "Capture a live URL or render raw HTML markup.",
+  helpText: "Capture a live URL, render raw HTML markup, or turn Markdown into a finished image or PDF.",
   altersDynamicFields: true,
 };
 
 // Dynamic function — returns ONLY the URL field when source=url, ONLY the
-// HTML field when source=html. Previously both were declared as static
-// required fields, so Zapier demanded both simultaneously and users
-// couldn't submit the form. Zapier re-invokes this whenever source changes.
+// HTML field when source=html, ONLY the Markdown field when
+// source=markdown. Previously both were declared as static required fields,
+// so Zapier demanded both simultaneously and users couldn't submit the
+// form. Zapier re-invokes this whenever source changes.
 const sourceValueFields = (_z: ZObject, bundle: Bundle) => {
   const source = (bundle.inputData?.source as string) || "url";
   if (source === "html") {
@@ -32,6 +33,18 @@ const sourceValueFields = (_z: ZObject, bundle: Bundle) => {
         type: "text" as const,
         required: true,
         helpText: "Raw HTML to render and capture. Max 5 MB.",
+      },
+    ];
+  }
+  if (source === "markdown") {
+    return [
+      {
+        key: "markdown",
+        label: "Markdown",
+        type: "text" as const,
+        required: true,
+        helpText:
+          "Markdown text to turn into a polished image or PDF — headings, lists, links, and code blocks are styled for you. Max 5 MB.",
       },
     ];
   }
@@ -145,7 +158,7 @@ const advancedFields = [
     type: "text" as const,
     required: false,
     helpText:
-      'JSON array of cookies: [{"name":"session","value":"abc","domain":"example.com"}]. Max 50. Requires a Rendex paid plan (Starter, Pro, or Enterprise) — this is separate from your Zapier plan. Free Rendex keys will receive a 403 PLAN_UPGRADE_REQUIRED error. Upgrade at https://rendex.dev/pricing.',
+      'JSON array of cookie objects. Each cookie needs at minimum a name and value, plus optional domain, path, httpOnly, secure, sameSite, and expires fields. Maximum 50 cookies per request. Requires a Rendex paid plan (Starter, Pro, or Enterprise) — separate from your Zapier plan. Free Rendex keys return a 403 PLAN_UPGRADE_REQUIRED error. See the Rendex pricing page to upgrade.',
   },
   {
     key: "css",
@@ -192,7 +205,7 @@ const advancedFields = [
     type: "string" as const,
     required: false,
     helpText:
-      "ISO 3166-1 alpha-2 country code (e.g. US, DE, JP, CA) to capture the page as seen from that country. Requires a Rendex Pro or Enterprise plan — this is separate from your Zapier plan. Free and Starter Rendex keys will receive a 403 PLAN_UPGRADE_REQUIRED error. Upgrade at https://rendex.dev/pricing.",
+      "ISO 3166-1 alpha-2 country code to capture the page as seen from that country. Examples: US for United States, DE for Germany, JP for Japan, CA for Canada. Requires a Rendex Pro or Enterprise plan — separate from your Zapier plan. Free and Starter Rendex keys return a 403 PLAN_UPGRADE_REQUIRED error. See the Rendex pricing page to upgrade.",
   },
   {
     key: "geoCity",
@@ -216,7 +229,7 @@ const advancedFields = [
     type: "text" as const,
     required: false,
     helpText:
-      'JSON object of HTTP headers: {"X-Custom":"value"}. Cannot override Host, Connection, Content-Length, Transfer-Encoding. Requires a Rendex paid plan (Starter, Pro, or Enterprise) — this is separate from your Zapier plan. Free Rendex keys will receive a 403 PLAN_UPGRADE_REQUIRED error. Upgrade at https://rendex.dev/pricing.',
+      "JSON object mapping HTTP header names to values. Cannot override Host, Connection, Content-Length, or Transfer-Encoding. Requires a Rendex paid plan (Starter, Pro, or Enterprise) — separate from your Zapier plan. Free Rendex keys return a 403 PLAN_UPGRADE_REQUIRED error. See the Rendex pricing page to upgrade.",
   },
   {
     key: "height",

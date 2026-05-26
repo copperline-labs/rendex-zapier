@@ -4,7 +4,9 @@ import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
-import newScreenshotReady from "./triggers/newScreenshotReady";
+import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
+import listJobs from "./triggers/listJobs";
+import listBatches from "./triggers/listBatches";
 declare const _default: {
     version: any;
     platformVersion: string;
@@ -29,7 +31,7 @@ declare const _default: {
         cleanInputData: boolean;
     };
     triggers: {
-        [newScreenshotReady.key]: {
+        [newCompletedScreenshot.key]: {
             key: string;
             noun: string;
             display: {
@@ -37,49 +39,92 @@ declare const _default: {
                 description: string;
             };
             operation: {
-                type: "hook";
-                performSubscribe: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
-                    targetUrl: string | undefined;
-                }>;
-                performUnsubscribe: (_z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{}>;
-                perform: (_z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
-                    id: any;
-                    event: any;
-                    jobId: any;
-                    batchId: any;
-                    status: any;
-                    resultUrl: any;
-                    error: any;
-                    completedAt: any;
-                    totalJobs: any;
-                    completedJobs: any;
-                    failedJobs: any;
-                }[]>;
-                performList: (_z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{
+                type: "polling";
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{
                     id: string;
-                    event: string;
                     jobId: string;
-                    batchId: null;
+                    batchId: string | null;
                     status: string;
-                    resultUrl: string;
-                    error: null;
-                    completedAt: string;
-                    totalJobs: null;
-                    completedJobs: null;
-                    failedJobs: null;
+                    url: string | null;
+                    resultUrl: string | null;
+                    error: string | null;
+                    createdAt: string;
+                    completedAt: string | null;
                 }[]>;
                 sample: {
                     id: string;
-                    event: string;
                     jobId: string;
                     batchId: null;
                     status: string;
+                    url: string;
                     resultUrl: string;
                     error: null;
+                    createdAt: string;
                     completedAt: string;
-                    totalJobs: null;
-                    completedJobs: null;
-                    failedJobs: null;
+                };
+            };
+        };
+        [listJobs.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+                hidden: boolean;
+            };
+            operation: {
+                type: "polling";
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    id: string;
+                    jobId: string;
+                    label: string;
+                    status: string;
+                    url: string | null;
+                    createdAt: string;
+                    completedAt: string | null;
+                }[]>;
+                sample: {
+                    id: string;
+                    jobId: string;
+                    label: string;
+                    status: string;
+                    url: string;
+                    createdAt: string;
+                    completedAt: string;
+                };
+            };
+        };
+        [listBatches.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+                hidden: boolean;
+            };
+            operation: {
+                type: "polling";
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    id: string;
+                    batchId: string;
+                    label: string;
+                    status: string;
+                    totalJobs: number | null;
+                    completedJobs: number | null;
+                    failedJobs: number | null;
+                    createdAt: string;
+                    completedAt: string | null;
+                }[]>;
+                sample: {
+                    id: string;
+                    batchId: string;
+                    label: string;
+                    status: string;
+                    totalJobs: number;
+                    completedJobs: number;
+                    failedJobs: number;
+                    createdAt: string;
+                    completedAt: string;
                 };
             };
         };
@@ -100,6 +145,7 @@ declare const _default: {
                     choices: {
                         url: string;
                         html: string;
+                        markdown: string;
                     };
                     default: string;
                     required: boolean;
@@ -225,27 +271,32 @@ declare const _default: {
                 })[];
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
                     file: string;
-                    contentType: any;
-                    url: any;
-                    width: any;
-                    height: any;
-                    format: any;
-                    bytesSize: any;
+                    contentType: string;
+                    url: string | null;
+                    format: string;
+                    jobId: any;
+                    status: "completed";
                     capturedAt: any;
-                    quality: any;
-                    loadTimeMs: any;
+                    message: string;
+                } | {
+                    file: null;
+                    contentType: null;
+                    url: string | null;
+                    format: string;
+                    jobId: any;
+                    status: "still_processing";
+                    capturedAt: null;
+                    message: string;
                 }>;
                 sample: {
                     file: string;
                     contentType: string;
                     url: string;
-                    width: number;
-                    height: number;
                     format: string;
-                    bytesSize: number;
+                    jobId: string;
+                    status: string;
                     capturedAt: string;
-                    quality: string;
-                    loadTimeMs: number;
+                    message: string;
                 };
             };
         };
@@ -264,6 +315,7 @@ declare const _default: {
                     choices: {
                         url: string;
                         html: string;
+                        markdown: string;
                     };
                     default: string;
                     required: boolean;
@@ -360,26 +412,31 @@ declare const _default: {
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
                     file: string;
                     contentType: string;
-                    url: any;
-                    width: any;
-                    height: any;
-                    format: string;
-                    bytesSize: any;
+                    url: string | null;
+                    format: "pdf";
+                    jobId: any;
+                    status: "completed";
                     capturedAt: any;
-                    quality: any;
-                    loadTimeMs: any;
+                    message: string;
+                } | {
+                    file: null;
+                    contentType: null;
+                    url: string | null;
+                    format: "pdf";
+                    jobId: any;
+                    status: "still_processing";
+                    capturedAt: null;
+                    message: string;
                 }>;
                 sample: {
                     file: string;
                     contentType: string;
                     url: string;
-                    width: number;
-                    height: number;
                     format: string;
-                    bytesSize: number;
+                    jobId: string;
+                    status: string;
                     capturedAt: string;
-                    quality: string;
-                    loadTimeMs: number;
+                    message: string;
                 };
             };
         };
@@ -398,6 +455,7 @@ declare const _default: {
                     choices: {
                         url: string;
                         html: string;
+                        markdown: string;
                     };
                     default: string;
                     required: boolean;
@@ -596,7 +654,45 @@ declare const _default: {
                     default: string;
                     required: boolean;
                     helpText: string;
+                } | ((_z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                    choices: {
+                        A3: string;
+                        A4: string;
+                        Legal: string;
+                        Letter: string;
+                        Tabloid: string;
+                    };
+                    default: string;
+                    required: boolean;
+                    helpText: string;
                 } | {
+                    key: string;
+                    label: string;
+                    type: "boolean";
+                    default: string;
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "text";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "number";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                })[]) | {
                     key: string;
                     label: string;
                     type: "string";
@@ -609,6 +705,7 @@ declare const _default: {
                     default: string;
                     required: boolean;
                     helpText: string;
+                    altersDynamicFields: boolean;
                 })[];
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
                     batchId: any;
@@ -639,6 +736,7 @@ declare const _default: {
                     label: string;
                     type: "string";
                     required: boolean;
+                    dynamic: string;
                     helpText: string;
                 }[];
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any[]>;
@@ -667,6 +765,7 @@ declare const _default: {
                     label: string;
                     type: "string";
                     required: boolean;
+                    dynamic: string;
                     helpText: string;
                 }[];
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any[]>;

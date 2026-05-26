@@ -6,6 +6,7 @@ declare const sourceTypeField: {
     choices: {
         url: string;
         html: string;
+        markdown: string;
     };
     default: string;
     required: boolean;

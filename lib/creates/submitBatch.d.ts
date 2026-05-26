@@ -60,7 +60,45 @@ declare const _default: {
             default: string;
             required: boolean;
             helpText: string;
+        } | ((_z: ZObject, bundle: Bundle) => ({
+            key: string;
+            label: string;
+            type: "string";
+            choices: {
+                A3: string;
+                A4: string;
+                Legal: string;
+                Letter: string;
+                Tabloid: string;
+            };
+            default: string;
+            required: boolean;
+            helpText: string;
         } | {
+            key: string;
+            label: string;
+            type: "boolean";
+            default: string;
+            required: boolean;
+            helpText: string;
+            choices?: undefined;
+        } | {
+            key: string;
+            label: string;
+            type: "text";
+            required: boolean;
+            helpText: string;
+            choices?: undefined;
+            default?: undefined;
+        } | {
+            key: string;
+            label: string;
+            type: "number";
+            required: boolean;
+            helpText: string;
+            choices?: undefined;
+            default?: undefined;
+        })[]) | {
             key: string;
             label: string;
             type: "string";
@@ -73,6 +111,7 @@ declare const _default: {
             default: string;
             required: boolean;
             helpText: string;
+            altersDynamicFields: boolean;
         })[];
         perform: (z: ZObject, bundle: Bundle) => Promise<{
             batchId: any;

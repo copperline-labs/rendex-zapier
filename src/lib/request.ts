@@ -13,6 +13,7 @@ export function buildRequestBody(
   const source = input.source || "url";
   if (source === "url" && input.url) body.url = normalizeUrl(input.url);
   if (source === "html" && input.html) body.html = input.html;
+  if (source === "markdown" && input.markdown) body.markdown = input.markdown;
 
   // Format
   if (input.format) body.format = input.format;
@@ -98,4 +99,47 @@ export function normalizeUrl(val: unknown): string {
   if (!raw) return raw;
   if (/^https?:\/\//i.test(raw)) return raw;
   return `https://${raw}`;
+}
+
+/**
+ * Validate an optional webhook-style URL field. Non-developer Zapier users
+ * often leave these fields with stray characters (`/`, data-picker refs that
+ * resolve to empty, whitespace) — silently skip those instead of blowing up
+ * the API call. For real-looking-but-malformed values, throw a clear error
+ * that tells the user how to fix it.
+ *
+ * Returns the normalized URL when valid, undefined when the field should be
+ * omitted from the request body entirely, or throws when the user attempted
+ * a URL that's clearly broken.
+ */
+export function validateOptionalWebhookUrl(
+  val: unknown,
+  fieldLabel: string,
+): string | undefined {
+  const raw = String(val ?? "").trim();
+  if (!raw) return undefined;
+
+  // Common Zapier data-picker leftovers that aren't real URLs.
+  if (raw === "/" || raw === "null" || raw === "undefined" || raw.length < 4) {
+    return undefined;
+  }
+
+  const normalized = normalizeUrl(raw);
+  let parsed: URL;
+  try {
+    parsed = new URL(normalized);
+  } catch {
+    throw new Error(
+      `The ${fieldLabel} field doesn't look like a valid URL (got "${raw}"). If you don't need a webhook callback, leave it empty and use Get Job Status to poll for the result. If you do, copy the URL from the 'New Screenshot Ready' trigger's setup step.`,
+    );
+  }
+  if (!parsed.hostname || parsed.hostname.length < 3) {
+    return undefined;
+  }
+  if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+    throw new Error(
+      `The ${fieldLabel} field must be an https URL (got "${raw}").`,
+    );
+  }
+  return normalized;
 }

@@ -14,6 +14,7 @@ declare const _default: {
             choices: {
                 url: string;
                 html: string;
+                markdown: string;
             };
             default: string;
             required: boolean;

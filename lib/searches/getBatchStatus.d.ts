@@ -12,6 +12,7 @@ declare const _default: {
             label: string;
             type: "string";
             required: boolean;
+            dynamic: string;
             helpText: string;
         }[];
         perform: (z: ZObject, bundle: Bundle) => Promise<any[]>;

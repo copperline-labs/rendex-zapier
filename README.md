@@ -4,7 +4,7 @@ Capture screenshots, generate PDFs, and process batch captures directly from you
 
 ## Features
 
-- **Capture Screenshot** — Render any URL or raw HTML to PNG, JPEG, or WebP
+- **Capture Screenshot** — Render any URL, raw HTML, or Markdown to PNG, JPEG, or WebP
 - **Generate PDF** — Convert pages to PDF with custom sizes, margins, and orientation
 - **Capture Async** — Submit long-running captures with optional webhook callbacks
 - **Submit Batch** — Process up to 500 URLs in a single request
@@ -42,7 +42,7 @@ npm run generate-logo
 
 ## Deployment
 
-This package is the source for the Rendex Zapier integration, deployed to the Zapier platform via the Zapier Platform CLI. Contributions are welcome — see [CONTRIBUTING](https://github.com/copperline-labs/.github/blob/main/CONTRIBUTING.md).
+This package is deployed via the Zapier Platform CLI from the public mirror repo [copperline-labs/rendex-zapier](https://github.com/copperline-labs/rendex-zapier). See the release runbook for the full release flow.
 
 ```bash
 zapier push       # Upload to Zapier
