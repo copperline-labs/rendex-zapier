@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.3.0
+
+Added **Template Values** to Capture Screenshot, Generate PDF, and Capture Async. Fill in the `{{placeholders}}` in your HTML or Markdown with a row per value — Rendex merges them in before rendering. Build one reusable template and generate invoices, reports, certificates, or cards by just changing the values.
+
+- **New "Template Values" field** (key/value rows — no code) shown when Source Type is HTML or Markdown. Each row maps a placeholder name to its value.
+- Supports simple values (`{{number}}`), and the template can loop over repeated rows and use sections — handy for line items on an invoice.
+- Template Values aren't used for URL captures, so they're left out of Submit Batch.
+
+No authentication or trigger changes. Existing Zaps continue to work unchanged.
+
 ## 1.2.0
 
 Added **Markdown** as a third source type alongside URL and Raw HTML. You can now turn Markdown straight into a PNG, JPEG, WebP, or PDF — great for rendering docs, READMEs, release notes, and AI-generated content without converting to HTML first.

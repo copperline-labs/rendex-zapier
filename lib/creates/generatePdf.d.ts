@@ -107,7 +107,13 @@ declare const _default: {
             default: string;
             required: boolean;
             helpText: string;
-        })[];
+        } | ((_z: ZObject, bundle: Bundle) => {
+            key: string;
+            label: string;
+            type: "dict";
+            required: boolean;
+            helpText: string;
+        }[]))[];
         perform: (z: ZObject, bundle: Bundle) => Promise<{
             file: string;
             contentType: string;

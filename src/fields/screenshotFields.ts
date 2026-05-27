@@ -308,9 +308,29 @@ const advancedFields = [
   },
 ];
 
+// Dynamic function — returns the "Template Values" dict field only when
+// the source is HTML or Markdown (i.e. the content is user-supplied and
+// can contain {{placeholders}}). Hidden for URL captures because
+// templating is not applied to live web pages.
+const templateDataFields = (_z: ZObject, bundle: Bundle) => {
+  const source = (bundle.inputData?.source as string) || "url";
+  if (source === "url") return [];
+  return [
+    {
+      key: "data",
+      label: "Template Values",
+      type: "dict" as const,
+      required: false,
+      helpText:
+        "Fill in the {{placeholders}} in your HTML or Markdown. Add one row per placeholder — the key is the placeholder name (without curly braces) and the value is what replaces it. For example: key = name, value = Alice replaces {{name}} with Alice. Leave empty if your content has no placeholders.",
+    },
+  ];
+};
+
 export {
   sourceTypeField,
   sourceValueFields,
+  templateDataFields,
   formatField,
   pdfFieldsArray,
   pdfDynamicFields,

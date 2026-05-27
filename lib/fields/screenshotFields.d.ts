@@ -173,5 +173,12 @@ declare const advancedFields: ({
     required: boolean;
     helpText: string;
 })[];
-export { sourceTypeField, sourceValueFields, formatField, pdfFieldsArray, pdfDynamicFields, advancedFields, };
+declare const templateDataFields: (_z: ZObject, bundle: Bundle) => {
+    key: string;
+    label: string;
+    type: "dict";
+    required: boolean;
+    helpText: string;
+}[];
+export { sourceTypeField, sourceValueFields, templateDataFields, formatField, pdfFieldsArray, pdfDynamicFields, advancedFields, };
 //# sourceMappingURL=screenshotFields.d.ts.map

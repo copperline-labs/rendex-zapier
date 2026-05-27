@@ -268,7 +268,13 @@ declare const _default: {
                     default: string;
                     required: boolean;
                     helpText: string;
-                })[];
+                } | ((_z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => {
+                    key: string;
+                    label: string;
+                    type: "dict";
+                    required: boolean;
+                    helpText: string;
+                }[]))[];
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
                     file: string;
                     contentType: string;
@@ -408,7 +414,13 @@ declare const _default: {
                     default: string;
                     required: boolean;
                     helpText: string;
-                })[];
+                } | ((_z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => {
+                    key: string;
+                    label: string;
+                    type: "dict";
+                    required: boolean;
+                    helpText: string;
+                }[]))[];
                 perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
                     file: string;
                     contentType: string;
@@ -562,7 +574,13 @@ declare const _default: {
                     default: string;
                     required: boolean;
                     helpText: string;
-                } | {
+                } | ((_z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => {
+                    key: string;
+                    label: string;
+                    type: "dict";
+                    required: boolean;
+                    helpText: string;
+                }[]) | {
                     key: string;
                     label: string;
                     type: "string";

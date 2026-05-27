@@ -33,6 +33,7 @@ const BATCH_STRIPPED_KEYS = [
   "url",
   "html",
   "markdown",
+  "data",
   "async",
   "cookies",
   "headers",

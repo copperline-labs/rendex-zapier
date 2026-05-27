@@ -2,6 +2,7 @@ import { SCREENSHOT_ENDPOINT, JOBS_ENDPOINT } from "../constants";
 import {
   sourceTypeField,
   sourceValueFields,
+  templateDataFields,
   pdfFieldsArray,
   advancedFields,
 } from "../fields/screenshotFields";
@@ -99,6 +100,7 @@ export default {
     inputFields: [
       sourceTypeField,
       sourceValueFields,
+      templateDataFields,
       ...pdfFieldsArray,
       ...advancedFields,
     ],

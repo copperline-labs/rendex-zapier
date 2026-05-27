@@ -66,6 +66,15 @@ export function buildRequestBody(
       .filter(Boolean);
   }
 
+  // Template data — dict of placeholder→value for HTML/Markdown templating.
+  // Zapier delivers dict fields as plain objects; pass through as-is when
+  // non-empty. Only meaningful when source=html or source=markdown (the API
+  // ignores it for URL captures), but we let the API enforce that rather than
+  // silently dropping user input here.
+  if (input.data && typeof input.data === "object" && Object.keys(input.data as object).length > 0) {
+    body.data = input.data;
+  }
+
   // Async mode
   if (input.async !== undefined) body.async = toBool(input.async);
 

@@ -121,7 +121,13 @@ declare const _default: {
             default: string;
             required: boolean;
             helpText: string;
-        } | {
+        } | ((_z: ZObject, bundle: Bundle) => {
+            key: string;
+            label: string;
+            type: "dict";
+            required: boolean;
+            helpText: string;
+        }[]) | {
             key: string;
             label: string;
             type: "string";

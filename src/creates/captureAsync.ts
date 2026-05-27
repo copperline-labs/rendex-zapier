@@ -2,6 +2,7 @@ import { SCREENSHOT_ENDPOINT } from "../constants";
 import {
   sourceTypeField,
   sourceValueFields,
+  templateDataFields,
   formatField,
   pdfDynamicFields,
   advancedFields,
@@ -83,6 +84,7 @@ export default {
     inputFields: [
       sourceTypeField,
       sourceValueFields,
+      templateDataFields,
       formatField,
       pdfDynamicFields,
       ...advancedFields,
