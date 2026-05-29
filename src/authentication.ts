@@ -4,10 +4,10 @@ import type { Bundle, ZObject } from "zapier-platform-core";
 const test = async (z: ZObject, _bundle: Bundle) => {
   const response = await z.request({ url: CREDENTIAL_TEST_PATH });
 
-  // 401/403 are caught by the afterResponse middleware (handleErrors).
-  // Any other status (including 404) means the key is valid — the
-  // credential-check path doesn't exist as a resource, but the auth
-  // layer passed, which is all we need.
+  // CREDENTIAL_TEST_PATH is the dedicated /v1/credential-check endpoint,
+  // which returns 200 {ok:true} for a valid key. A 401/403 (invalid/forbidden
+  // key) surfaces below; the afterResponse middleware (handleErrors) handles
+  // other non-2xx statuses.
   if (response.status === 401 || response.status === 403) {
     throw new z.errors.Error(
       "Authentication failed. Check your API key at rendex.dev/dashboard/keys.",
