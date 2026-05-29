@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.0
+
+Added a new **Extract Text From a Web Page** action and more ways to control how a page is captured.
+
+- **New "Extract Text From a Web Page" action** — give it any URL and get back the clean article text (the main content, with the navigation, ads, and footers stripped out). Choose Markdown, HTML, or JSON, and you also get the page title, author, excerpt, and site name as separate fields to use in later steps. Great for feeding articles into AI steps, summaries, or content databases. Returns the result right away — no waiting or polling.
+- **New "Device" choice** on Capture Screenshot, Generate PDF, and Capture Async — capture a page as it looks on Desktop, iPhone 15, iPhone SE, Pixel 8, iPad, or iPad Pro, without setting viewport sizes by hand.
+- **New "Resize Width" and "Resize Height"** options — scale the finished image down to an exact size (handy for thumbnails or fitting a fixed slot).
+- **New "Hide Cookie Banners"** toggle — automatically dismiss common cookie and consent pop-ups before the capture.
+- **New "Hide Elements"** field — list CSS selectors (one per line) for anything you want removed from the page before capture, like chat widgets or promo bars.
+
+No authentication or trigger changes. Existing Zaps continue to work unchanged.
+
 ## 1.3.0
 
 Added **Template Values** to Capture Screenshot, Generate PDF, and Capture Async. Fill in the `{{placeholders}}` in your HTML or Markdown with a row per value — Rendex merges them in before rendering. Build one reusable template and generate invoices, reports, certificates, or cards by just changing the values.

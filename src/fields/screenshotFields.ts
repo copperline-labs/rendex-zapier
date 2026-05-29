@@ -145,6 +145,14 @@ const advancedFields = [
     helpText: "Block ads and trackers before capture. Default: true.",
   },
   {
+    key: "blockCookieBanners",
+    label: "Hide Cookie Banners",
+    type: "boolean" as const,
+    default: "false",
+    required: false,
+    helpText: "Automatically hide common cookie/consent pop-ups before capture.",
+  },
+  {
     key: "blockResourceTypes",
     label: "Block Resource Types",
     type: "string" as const,
@@ -182,6 +190,21 @@ const advancedFields = [
     default: "0",
     required: false,
     helpText: "Milliseconds to wait after page load before capture (0–10000).",
+  },
+  {
+    key: "device",
+    label: "Device",
+    type: "string" as const,
+    choices: {
+      desktop: "Desktop",
+      iphone_15: "iPhone 15",
+      iphone_se: "iPhone SE",
+      pixel_8: "Pixel 8",
+      ipad: "iPad",
+      ipad_pro: "iPad Pro",
+    },
+    required: false,
+    helpText: "Capture as if viewed on this device.",
   },
   {
     key: "deviceScaleFactor",
@@ -240,6 +263,14 @@ const advancedFields = [
     helpText: "Viewport height in pixels (240–2160). Default: 800.",
   },
   {
+    key: "hideSelectors",
+    label: "Hide Elements",
+    type: "text" as const,
+    required: false,
+    helpText:
+      "CSS selectors for elements to hide (e.g. popups or banners), one per line.",
+  },
+  {
     key: "js",
     label: "Custom JavaScript",
     type: "text" as const,
@@ -252,6 +283,20 @@ const advancedFields = [
     type: "integer" as const,
     required: false,
     helpText: "Image quality 1–100 (JPEG/WebP only, ignored for PNG/PDF).",
+  },
+  {
+    key: "resizeHeight",
+    label: "Resize Height (px)",
+    type: "integer" as const,
+    required: false,
+    helpText: "Shrink the image to this height.",
+  },
+  {
+    key: "resizeWidth",
+    label: "Resize Width (px)",
+    type: "integer" as const,
+    required: false,
+    helpText: "Shrink the image to this width. Keeps proportions if height is blank.",
   },
   {
     key: "selector",

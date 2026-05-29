@@ -2,6 +2,7 @@ import screenshotCapture from "./creates/screenshotCapture";
 import generatePdf from "./creates/generatePdf";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
+import extractText from "./creates/extractText";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
@@ -250,6 +251,25 @@ declare const _default: {
                 } | {
                     key: string;
                     label: string;
+                    type: "string";
+                    choices: {
+                        desktop: string;
+                        iphone_15: string;
+                        iphone_se: string;
+                        pixel_8: string;
+                        ipad: string;
+                        ipad_pro: string;
+                        domcontentloaded?: undefined;
+                        load?: undefined;
+                        networkidle0?: undefined;
+                        networkidle2?: undefined;
+                    };
+                    required: boolean;
+                    helpText: string;
+                    default?: undefined;
+                } | {
+                    key: string;
+                    label: string;
                     type: "integer";
                     required: boolean;
                     helpText: string;
@@ -264,6 +284,12 @@ declare const _default: {
                         load: string;
                         networkidle0: string;
                         networkidle2: string;
+                        desktop?: undefined;
+                        iphone_15?: undefined;
+                        iphone_se?: undefined;
+                        pixel_8?: undefined;
+                        ipad?: undefined;
+                        ipad_pro?: undefined;
                     };
                     default: string;
                     required: boolean;
@@ -396,6 +422,25 @@ declare const _default: {
                 } | {
                     key: string;
                     label: string;
+                    type: "string";
+                    choices: {
+                        desktop: string;
+                        iphone_15: string;
+                        iphone_se: string;
+                        pixel_8: string;
+                        ipad: string;
+                        ipad_pro: string;
+                        domcontentloaded?: undefined;
+                        load?: undefined;
+                        networkidle0?: undefined;
+                        networkidle2?: undefined;
+                    };
+                    required: boolean;
+                    helpText: string;
+                    default?: undefined;
+                } | {
+                    key: string;
+                    label: string;
                     type: "integer";
                     required: boolean;
                     helpText: string;
@@ -410,6 +455,12 @@ declare const _default: {
                         load: string;
                         networkidle0: string;
                         networkidle2: string;
+                        desktop?: undefined;
+                        iphone_15?: undefined;
+                        iphone_se?: undefined;
+                        pixel_8?: undefined;
+                        ipad?: undefined;
+                        ipad_pro?: undefined;
                     };
                     default: string;
                     required: boolean;
@@ -570,6 +621,12 @@ declare const _default: {
                         load: string;
                         networkidle0: string;
                         networkidle2: string;
+                        desktop?: undefined;
+                        iphone_15?: undefined;
+                        iphone_se?: undefined;
+                        pixel_8?: undefined;
+                        ipad?: undefined;
+                        ipad_pro?: undefined;
                     };
                     default: string;
                     required: boolean;
@@ -654,6 +711,25 @@ declare const _default: {
                 } | {
                     key: string;
                     label: string;
+                    type: "string";
+                    choices: {
+                        desktop: string;
+                        iphone_15: string;
+                        iphone_se: string;
+                        pixel_8: string;
+                        ipad: string;
+                        ipad_pro: string;
+                        domcontentloaded?: undefined;
+                        load?: undefined;
+                        networkidle0?: undefined;
+                        networkidle2?: undefined;
+                    };
+                    required: boolean;
+                    helpText: string;
+                    default?: undefined;
+                } | {
+                    key: string;
+                    label: string;
                     type: "integer";
                     required: boolean;
                     helpText: string;
@@ -668,6 +744,12 @@ declare const _default: {
                         load: string;
                         networkidle0: string;
                         networkidle2: string;
+                        desktop?: undefined;
+                        iphone_15?: undefined;
+                        iphone_se?: undefined;
+                        pixel_8?: undefined;
+                        ipad?: undefined;
+                        ipad_pro?: undefined;
                     };
                     default: string;
                     required: boolean;
@@ -736,6 +818,57 @@ declare const _default: {
                     status: string;
                     totalJobs: number;
                     message: string;
+                };
+            };
+        };
+        [extractText.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    choices: {
+                        markdown: string;
+                        html: string;
+                        json: string;
+                    };
+                    default: string;
+                    required: boolean;
+                    helpText: string;
+                })[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    url: any;
+                    format: any;
+                    content: any;
+                    title: any;
+                    byline: any;
+                    excerpt: any;
+                    siteName: any;
+                    length: any;
+                }>;
+                sample: {
+                    url: string;
+                    format: string;
+                    content: string;
+                    title: string;
+                    byline: string;
+                    excerpt: string;
+                    siteName: string;
+                    length: number;
                 };
             };
         };

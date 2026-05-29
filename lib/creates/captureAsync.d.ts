@@ -117,6 +117,12 @@ declare const _default: {
                 load: string;
                 networkidle0: string;
                 networkidle2: string;
+                desktop?: undefined;
+                iphone_15?: undefined;
+                iphone_se?: undefined;
+                pixel_8?: undefined;
+                ipad?: undefined;
+                ipad_pro?: undefined;
             };
             default: string;
             required: boolean;

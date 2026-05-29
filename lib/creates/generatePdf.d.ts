@@ -89,6 +89,25 @@ declare const _default: {
         } | {
             key: string;
             label: string;
+            type: "string";
+            choices: {
+                desktop: string;
+                iphone_15: string;
+                iphone_se: string;
+                pixel_8: string;
+                ipad: string;
+                ipad_pro: string;
+                domcontentloaded?: undefined;
+                load?: undefined;
+                networkidle0?: undefined;
+                networkidle2?: undefined;
+            };
+            required: boolean;
+            helpText: string;
+            default?: undefined;
+        } | {
+            key: string;
+            label: string;
             type: "integer";
             required: boolean;
             helpText: string;
@@ -103,6 +122,12 @@ declare const _default: {
                 load: string;
                 networkidle0: string;
                 networkidle2: string;
+                desktop?: undefined;
+                iphone_15?: undefined;
+                iphone_se?: undefined;
+                pixel_8?: undefined;
+                ipad?: undefined;
+                ipad_pro?: undefined;
             };
             default: string;
             required: boolean;

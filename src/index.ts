@@ -6,6 +6,7 @@ import screenshotCapture from "./creates/screenshotCapture";
 import generatePdf from "./creates/generatePdf";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
+import extractText from "./creates/extractText";
 
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
@@ -39,6 +40,7 @@ export default {
     [generatePdf.key]: generatePdf,
     [captureAsync.key]: captureAsync,
     [submitBatch.key]: submitBatch,
+    [extractText.key]: extractText,
   },
 
   searches: {

@@ -23,10 +23,18 @@ export function buildRequestBody(
   if (input.height) body.height = toInt(input.height);
   if (input.deviceScaleFactor) body.deviceScaleFactor = toInt(input.deviceScaleFactor);
 
+  // Device emulation
+  if (input.device) body.device = input.device;
+
+  // Output resize (image formats only — coerce to numbers)
+  if (input.resizeWidth) body.resizeWidth = toInt(input.resizeWidth);
+  if (input.resizeHeight) body.resizeHeight = toInt(input.resizeHeight);
+
   // Booleans
   if (input.fullPage !== undefined) body.fullPage = toBool(input.fullPage);
   if (input.darkMode !== undefined) body.darkMode = toBool(input.darkMode);
   if (input.blockAds !== undefined) body.blockAds = toBool(input.blockAds);
+  if (input.blockCookieBanners !== undefined) body.blockCookieBanners = toBool(input.blockCookieBanners);
   if (input.bestAttempt !== undefined) body.bestAttempt = toBool(input.bestAttempt);
 
   // Numbers
@@ -64,6 +72,15 @@ export function buildRequestBody(
       .split(",")
       .map((s: string) => s.trim())
       .filter(Boolean);
+  }
+
+  // One selector per line → array
+  if (input.hideSelectors) {
+    const selectors = (input.hideSelectors as string)
+      .split(/\r?\n/)
+      .map((s: string) => s.trim())
+      .filter(Boolean);
+    if (selectors.length > 0) body.hideSelectors = selectors;
   }
 
   // Template data — dict of placeholder→value for HTML/Markdown templating.
