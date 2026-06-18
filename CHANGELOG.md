@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.0
+
+Added **Rendex Watch** — keep an eye on any web page and run a Zap when it changes.
+
+- **New "Website Changed" trigger** — starts your Zap whenever one of your monitored pages changes. Use it to post to Slack, add a row to a sheet, send an email, or kick off any workflow. (Prefer instant alerts? You can also point a watch's webhook at a Zapier Catch Hook — but this trigger needs zero setup.)
+- **New "Create Website Watch" action** — start monitoring a page. Choose how often to check (once a day up to every few minutes, depending on your plan) and what counts as a change: how the page **looks**, the **text** on it, or **both**. Fine-tune it by watching just one part of the page, ignoring noisy bits (clocks, counters, ads), or holding alerts while the page shows things like "Out of stock".
+- **New "Update Website Watch" action** — change a watch's schedule, settings, or alerts, or **pause and resume** it. Pick the watch from a dropdown.
+- **New "Delete Website Watch" action** — remove a watch you no longer need.
+- **New "Find Website Watch" search** — look up a watch's current status and details by ID.
+- **Clearer "needs a higher plan" messages** — when an action is blocked because it needs a higher plan (a faster check interval, more watches, webhook alerts, geo-targeting), Zapier now shows the actual upgrade message and link instead of incorrectly asking you to reconnect your Rendex account.
+- **Clear an alert channel on Update** — on "Update Website Watch", type `-` or `none` into "Email Alerts To" or the webhook field to remove that alert channel from a watch.
+
+No authentication changes. Existing Zaps continue to work unchanged.
+
 ## 1.4.0
 
 Added a new **Extract Text From a Web Page** action and more ways to control how a page is captured.

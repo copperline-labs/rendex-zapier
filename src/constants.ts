@@ -14,3 +14,4 @@ export const BATCH_ENDPOINT = "/v1/screenshot/batch";
 export const EXTRACT_ENDPOINT = "/v1/extract";
 export const JOBS_ENDPOINT = "/v1/jobs";
 export const BATCHES_ENDPOINT = "/v1/batches";
+export const WATCHES_ENDPOINT = "/v1/watches";

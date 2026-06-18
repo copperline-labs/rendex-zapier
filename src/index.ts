@@ -7,13 +7,19 @@ import generatePdf from "./creates/generatePdf";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
 import extractText from "./creates/extractText";
+import createWatch from "./creates/createWatch";
+import updateWatch from "./creates/updateWatch";
+import deleteWatch from "./creates/deleteWatch";
 
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
+import getWatchStatus from "./searches/getWatchStatus";
 
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
 import listJobs from "./triggers/listJobs";
 import listBatches from "./triggers/listBatches";
+import watchChanged from "./triggers/watchChanged";
+import listWatches from "./triggers/listWatches";
 
 export default {
   version: require("../package.json").version,
@@ -33,6 +39,8 @@ export default {
     [newCompletedScreenshot.key]: newCompletedScreenshot,
     [listJobs.key]: listJobs,
     [listBatches.key]: listBatches,
+    [watchChanged.key]: watchChanged,
+    [listWatches.key]: listWatches,
   },
 
   creates: {
@@ -41,10 +49,14 @@ export default {
     [captureAsync.key]: captureAsync,
     [submitBatch.key]: submitBatch,
     [extractText.key]: extractText,
+    [createWatch.key]: createWatch,
+    [updateWatch.key]: updateWatch,
+    [deleteWatch.key]: deleteWatch,
   },
 
   searches: {
     [getJobStatus.key]: getJobStatus,
     [getBatchStatus.key]: getBatchStatus,
+    [getWatchStatus.key]: getWatchStatus,
   },
 };

@@ -6,4 +6,5 @@ export declare const BATCH_ENDPOINT = "/v1/screenshot/batch";
 export declare const EXTRACT_ENDPOINT = "/v1/extract";
 export declare const JOBS_ENDPOINT = "/v1/jobs";
 export declare const BATCHES_ENDPOINT = "/v1/batches";
+export declare const WATCHES_ENDPOINT = "/v1/watches";
 //# sourceMappingURL=constants.d.ts.map

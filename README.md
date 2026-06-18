@@ -13,6 +13,9 @@ Capture screenshots, generate PDFs, and process batch captures directly from you
 - **Get Job Status** — Poll async capture results by job ID
 - **Get Batch Status** — Check batch progress and retrieve all results
 - **New Screenshot Ready** (trigger) — Fires when an async capture completes via webhook
+- **Website Changed** (trigger) — Fires when a monitored web page changes (Rendex Watch)
+- **Create / Update / Delete Website Watch** — Monitor a page on a schedule and detect when how it **looks** or the **text** on it changes; pause, resume, or remove a watch
+- **Find Website Watch** — Look up a watch's current status and details
 
 ## Template Values
 
@@ -22,6 +25,16 @@ then map fields from earlier steps in your Zap into the **Template Values** dict
 (`number` → `INV-014`, `total` → `$2,400`). Each time the Zap runs, Rendex fills in the
 template and returns a finished image or PDF. Loops and nested values are supported, and
 Template Values only applies when you provide HTML or Markdown (not a URL).
+
+## Website Monitoring (Rendex Watch)
+
+Keep an eye on any web page and run a Zap the moment it changes.
+
+1. Add the **Create Website Watch** action — paste the page URL, choose how often to check (once a day up to every few minutes, depending on your plan), and pick what counts as a change: how the page **looks**, the **text** on it, or **both**.
+2. Add the **Website Changed** trigger to a Zap to do something each time a page changes — post to Slack, add a spreadsheet row, send an email, anything.
+3. Fine-tune with optional settings: watch just one part of the page, ignore noisy bits (clocks, counters, ads), or hold alerts while the page shows "Out of stock".
+
+Manage watches anytime with **Update Website Watch** (change settings or pause/resume), **Delete Website Watch**, and **Find Website Watch**. Prefer instant alerts over polling? Point a watch's webhook at a Zapier **Catch Hook** — but the **Website Changed** trigger needs zero setup.
 
 ## Authentication
 

@@ -3,11 +3,17 @@ import generatePdf from "./creates/generatePdf";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
 import extractText from "./creates/extractText";
+import createWatch from "./creates/createWatch";
+import updateWatch from "./creates/updateWatch";
+import deleteWatch from "./creates/deleteWatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
+import getWatchStatus from "./searches/getWatchStatus";
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
 import listJobs from "./triggers/listJobs";
 import listBatches from "./triggers/listBatches";
+import watchChanged from "./triggers/watchChanged";
+import listWatches from "./triggers/listWatches";
 declare const _default: {
     version: any;
     platformVersion: string;
@@ -126,6 +132,79 @@ declare const _default: {
                     failedJobs: number;
                     createdAt: string;
                     completedAt: string;
+                };
+            };
+        };
+        [watchChanged.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                type: "polling";
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    runId?: string;
+                    diffScore?: number | null;
+                    diffPixels?: number | null;
+                    beforeUrl?: string | null;
+                    afterUrl?: string | null;
+                    diffOverlayUrl?: string | null;
+                    textDiff?: string | null;
+                    completedAt?: string | null;
+                    id: string;
+                    watchId: string;
+                    url: string | null;
+                    name: string | null;
+                    changedAt: string | null;
+                    status: string | null;
+                    lastStatus: string | null;
+                    baselineImageUrl: string | null;
+                }[]>;
+                sample: {
+                    id: string;
+                    watchId: string;
+                    url: string;
+                    name: string;
+                    changedAt: string;
+                    status: string;
+                    lastStatus: string;
+                    baselineImageUrl: string;
+                    runId: string;
+                    diffScore: number;
+                    diffPixels: number;
+                    beforeUrl: string;
+                    afterUrl: string;
+                    diffOverlayUrl: string;
+                    textDiff: string;
+                    completedAt: string;
+                };
+            };
+        };
+        [listWatches.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+                hidden: boolean;
+            };
+            operation: {
+                type: "polling";
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    id: string;
+                    label: string;
+                    url: string | null;
+                    name: string | null;
+                    status: string | null;
+                }[]>;
+                sample: {
+                    id: string;
+                    label: string;
+                    url: string;
+                    name: string;
+                    status: string;
                 };
             };
         };
@@ -872,6 +951,130 @@ declare const _default: {
                 };
             };
         };
+        [createWatch.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "text";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "integer";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "boolean";
+                    required: boolean;
+                    helpText: string;
+                })[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any>;
+                sample: {
+                    id: string;
+                    url: string;
+                    name: string;
+                    intervalMinutes: number;
+                    diffMode: string;
+                    status: string;
+                    nextRunAt: string;
+                    createdAt: string;
+                };
+            };
+        };
+        [updateWatch.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "text";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "integer";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "boolean";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    dynamic: string;
+                    helpText: string;
+                })[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any>;
+                sample: {
+                    id: string;
+                    url: string;
+                    name: string;
+                    intervalMinutes: number;
+                    diffMode: string;
+                    status: string;
+                    updatedAt: string;
+                };
+            };
+        };
+        [deleteWatch.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    dynamic: string;
+                    helpText: string;
+                }[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    deleted: boolean;
+                    id: string;
+                }>;
+                sample: {
+                    deleted: boolean;
+                    id: string;
+                };
+            };
+        };
     };
     searches: {
         [getJobStatus.key]: {
@@ -927,6 +1130,34 @@ declare const _default: {
                     completedJobs: number;
                     failedJobs: number;
                     jobs: never[];
+                };
+            };
+        };
+        [getWatchStatus.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    dynamic: string;
+                    helpText: string;
+                }[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any[]>;
+                sample: {
+                    id: string;
+                    url: string;
+                    name: string;
+                    status: string;
+                    lastStatus: string;
+                    lastChangedAt: string;
+                    nextRunAt: string;
                 };
             };
         };

@@ -53,6 +53,16 @@ export function jobDropdownLabel(job: {
   return parts.join(" · ");
 }
 
+export function watchDropdownLabel(watch: {
+  name?: string | null;
+  url?: string | null;
+  status?: string | null;
+}): string {
+  const title = watch.name?.trim() || urlHost(watch.url) || "Untitled watch";
+  const state = watch.status === "paused" ? "Paused" : "Active";
+  return `${title} · ${state}`;
+}
+
 export function batchDropdownLabel(batch: {
   status?: string | null;
   totalJobs?: number | null;
