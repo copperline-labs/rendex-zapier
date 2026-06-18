@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.5.1
+
+**New "Run a Check Now" action** — trigger an immediate check of a watch right now, outside its normal schedule. Pick the watch from a dropdown, or map a Watch ID from an earlier step — handy for re-checking on demand or testing a new watch from a Zap.
+
+No authentication changes. Existing Zaps continue to work unchanged.
+
 ## 1.5.0
 
 Added **Rendex Watch** — keep an eye on any web page and run a Zap when it changes.
