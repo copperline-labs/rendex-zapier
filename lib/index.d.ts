@@ -6,6 +6,7 @@ import extractText from "./creates/extractText";
 import createWatch from "./creates/createWatch";
 import updateWatch from "./creates/updateWatch";
 import deleteWatch from "./creates/deleteWatch";
+import runWatch from "./creates/runWatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import getWatchStatus from "./searches/getWatchStatus";
@@ -1072,6 +1073,30 @@ declare const _default: {
                 sample: {
                     deleted: boolean;
                     id: string;
+                };
+            };
+        };
+        [runWatch.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    dynamic: string;
+                    helpText: string;
+                }[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any>;
+                sample: {
+                    runId: string;
+                    watchId: string;
+                    status: string;
                 };
             };
         };

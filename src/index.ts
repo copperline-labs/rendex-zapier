@@ -10,6 +10,7 @@ import extractText from "./creates/extractText";
 import createWatch from "./creates/createWatch";
 import updateWatch from "./creates/updateWatch";
 import deleteWatch from "./creates/deleteWatch";
+import runWatch from "./creates/runWatch";
 
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
@@ -52,6 +53,7 @@ export default {
     [createWatch.key]: createWatch,
     [updateWatch.key]: updateWatch,
     [deleteWatch.key]: deleteWatch,
+    [runWatch.key]: runWatch,
   },
 
   searches: {
