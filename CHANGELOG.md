@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.0
+
+**New "Create Render Link" action** — turn any URL, raw HTML, or Markdown into a hosted, auto-caching image or PDF link instead of a downloaded file. Drop the returned link straight into a social-preview `og:image` tag or an `<img>` on your site — Rendex renders it once and serves a cached copy on every share, so a widely-shared link doesn't re-render on every visit. Optionally set how long the link stays valid. Same capture options as Capture Screenshot (device, full page, dark mode, format, and more).
+
+No authentication or trigger changes. Existing Zaps continue to work unchanged.
+
 ## 1.5.1
 
 **New "Run a Check Now" action** — trigger an immediate check of a watch right now, outside its normal schedule. Pick the watch from a dropdown, or map a Watch ID from an earlier step — handy for re-checking on demand or testing a new watch from a Zap.

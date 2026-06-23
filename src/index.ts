@@ -4,6 +4,7 @@ import { addBearerToken, setBaseUrl, handleErrors } from "./middleware";
 
 import screenshotCapture from "./creates/screenshotCapture";
 import generatePdf from "./creates/generatePdf";
+import renderLink from "./creates/renderLink";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
 import extractText from "./creates/extractText";
@@ -47,6 +48,7 @@ export default {
   creates: {
     [screenshotCapture.key]: screenshotCapture,
     [generatePdf.key]: generatePdf,
+    [renderLink.key]: renderLink,
     [captureAsync.key]: captureAsync,
     [submitBatch.key]: submitBatch,
     [extractText.key]: extractText,
