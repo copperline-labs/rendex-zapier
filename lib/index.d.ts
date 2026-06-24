@@ -8,6 +8,7 @@ import createWatch from "./creates/createWatch";
 import updateWatch from "./creates/updateWatch";
 import deleteWatch from "./creates/deleteWatch";
 import runWatch from "./creates/runWatch";
+import testWatch from "./creates/testWatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import getWatchStatus from "./searches/getWatchStatus";
@@ -1272,6 +1273,52 @@ declare const _default: {
                     runId: string;
                     watchId: string;
                     status: string;
+                };
+            };
+        };
+        [testWatch.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "text";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "integer";
+                    required: boolean;
+                    helpText: string;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "boolean";
+                    required: boolean;
+                    helpText: string;
+                })[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<any>;
+                sample: {
+                    ok: boolean;
+                    reachable: boolean;
+                    format: string;
+                    httpStatus: number;
+                    usedGeo: boolean;
+                    screenshotUrl: string;
+                    extractedText: null;
+                    capturedAt: string;
                 };
             };
         };

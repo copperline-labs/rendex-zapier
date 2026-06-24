@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.1
+
+**New "Test a Website Watch" action** — try out a watch on a page once, right now, without actually creating it. Rendex captures the page a single time and tells you whether it could read it and what it saw — so you can confirm the page works and your settings are right (which part of the page to watch, what counts as a change, how it should appear) before you start monitoring. Nothing is saved and no alerts are set up. Great for checking a new watch from a Zap before you commit to it.
+
+No authentication or trigger changes. Existing Zaps continue to work unchanged.
+
 ## 1.6.0
 
 **New "Create Render Link" action** — turn any URL, raw HTML, or Markdown into a hosted, auto-caching image or PDF link instead of a downloaded file. Drop the returned link straight into a social-preview `og:image` tag or an `<img>` on your site — Rendex renders it once and serves a cached copy on every share, so a widely-shared link doesn't re-render on every visit. Optionally set how long the link stays valid. Same capture options as Capture Screenshot (device, full page, dark mode, format, and more).

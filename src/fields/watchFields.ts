@@ -241,6 +241,27 @@ const SHARED_OPTIONAL_FIELDS = [
 
 export const CREATE_WATCH_FIELDS = [urlField, ...SHARED_OPTIONAL_FIELDS, pausedCreateField];
 
+// Test (dry-run) reuses the URL, what-counts-as-a-change, and the render knobs —
+// but NOT the schedule/alert/threshold fields, since a dry-run creates no watch
+// (nothing to schedule, alert on, or threshold against). No new field keys.
+const TEST_RENDER_FIELDS = [
+  selectorField,
+  hideSelectorsField,
+  ignoreTextField,
+  minTextCharsField,
+  suppressWhilePresentField,
+  formatField,
+  fullPageField,
+  deviceField,
+  darkModeField,
+  blockAdsField,
+  blockCookieBannersField,
+  geoField,
+  uaModeField,
+];
+
+export const TEST_WATCH_FIELDS = [urlField, diffModeField, ...TEST_RENDER_FIELDS];
+
 // Update reuses everything, but the URL is optional and there's a Pause/Resume control.
 const updateUrlField = { ...urlField, required: false, label: "New Web Page URL", helpText: "Optional. Change the page this watch monitors (this restarts the comparison from scratch)." };
 
