@@ -18,7 +18,7 @@ const perform = async (z: ZObject, _bundle: Bundle) => {
   });
 
   const data = response.json?.data ?? response.json;
-  return [data];
+  return data;
 };
 
 export default {

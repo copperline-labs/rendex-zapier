@@ -16,6 +16,7 @@ declare const _default: {
             choices?: undefined;
             default?: undefined;
             list?: undefined;
+            dict?: undefined;
         } | {
             key: string;
             label: string;
@@ -30,6 +31,7 @@ declare const _default: {
             required: boolean;
             helpText: string;
             list?: undefined;
+            dict?: undefined;
         } | {
             key: string;
             label: string;
@@ -44,6 +46,7 @@ declare const _default: {
             required: boolean;
             helpText: string;
             default?: undefined;
+            dict?: undefined;
         } | {
             key: string;
             label: string;
@@ -53,6 +56,7 @@ declare const _default: {
             choices?: undefined;
             default?: undefined;
             list?: undefined;
+            dict?: undefined;
         } | {
             key: string;
             label: string;
@@ -62,12 +66,14 @@ declare const _default: {
             choices?: undefined;
             default?: undefined;
             list?: undefined;
+            dict?: undefined;
         } | {
             key: string;
             label: string;
-            type: "dict";
+            dict: boolean;
             required: boolean;
             helpText: string;
+            type?: undefined;
             choices?: undefined;
             default?: undefined;
             list?: undefined;

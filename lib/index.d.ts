@@ -10,10 +10,10 @@ import updateWatch from "./creates/updateWatch";
 import deleteWatch from "./creates/deleteWatch";
 import runWatch from "./creates/runWatch";
 import testWatch from "./creates/testWatch";
+import getAccount from "./creates/getAccount";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import getWatchStatus from "./searches/getWatchStatus";
-import getAccount from "./searches/getAccount";
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
 import listJobs from "./triggers/listJobs";
 import listBatches from "./triggers/listBatches";
@@ -778,6 +778,7 @@ declare const _default: {
                     choices?: undefined;
                     default?: undefined;
                     list?: undefined;
+                    dict?: undefined;
                 } | {
                     key: string;
                     label: string;
@@ -792,6 +793,7 @@ declare const _default: {
                     required: boolean;
                     helpText: string;
                     list?: undefined;
+                    dict?: undefined;
                 } | {
                     key: string;
                     label: string;
@@ -806,6 +808,7 @@ declare const _default: {
                     required: boolean;
                     helpText: string;
                     default?: undefined;
+                    dict?: undefined;
                 } | {
                     key: string;
                     label: string;
@@ -815,6 +818,7 @@ declare const _default: {
                     choices?: undefined;
                     default?: undefined;
                     list?: undefined;
+                    dict?: undefined;
                 } | {
                     key: string;
                     label: string;
@@ -824,12 +828,14 @@ declare const _default: {
                     choices?: undefined;
                     default?: undefined;
                     list?: undefined;
+                    dict?: undefined;
                 } | {
                     key: string;
                     label: string;
-                    type: "dict";
+                    dict: boolean;
                     required: boolean;
                     helpText: string;
+                    type?: undefined;
                     choices?: undefined;
                     default?: undefined;
                     list?: undefined;
@@ -1411,6 +1417,52 @@ declare const _default: {
                 };
             };
         };
+        [getAccount.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: never[];
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<any>;
+                outputFields: ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                } | {
+                    key: string;
+                    label: string;
+                    type: "integer";
+                } | {
+                    key: string;
+                    label: string;
+                    type: "boolean";
+                } | {
+                    key: string;
+                    label: string;
+                    type: "datetime";
+                })[];
+                sample: {
+                    plan: string;
+                    usage: {
+                        used: number;
+                        limit: number;
+                        remaining: number;
+                        unlimited: boolean;
+                        resetsAt: string;
+                    };
+                    rateLimitPerMinute: number;
+                    upgrade: {
+                        recommendedPlan: string;
+                        recommendedPlanCredits: number;
+                        upgradeUrl: string;
+                        manageBillingUrl: string;
+                    };
+                };
+            };
+        };
     };
     searches: {
         [getJobStatus.key]: {
@@ -1494,52 +1546,6 @@ declare const _default: {
                     lastStatus: string;
                     lastChangedAt: string;
                     nextRunAt: string;
-                };
-            };
-        };
-        [getAccount.key]: {
-            key: string;
-            noun: string;
-            display: {
-                label: string;
-                description: string;
-            };
-            operation: {
-                inputFields: never[];
-                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<any[]>;
-                outputFields: ({
-                    key: string;
-                    label: string;
-                    type: "string";
-                } | {
-                    key: string;
-                    label: string;
-                    type: "integer";
-                } | {
-                    key: string;
-                    label: string;
-                    type: "boolean";
-                } | {
-                    key: string;
-                    label: string;
-                    type: "datetime";
-                })[];
-                sample: {
-                    plan: string;
-                    usage: {
-                        used: number;
-                        limit: number;
-                        remaining: number;
-                        unlimited: boolean;
-                        resetsAt: string;
-                    };
-                    rateLimitPerMinute: number;
-                    upgrade: {
-                        recommendedPlan: string;
-                        recommendedPlanCredits: number;
-                        upgradeUrl: string;
-                        manageBillingUrl: string;
-                    };
                 };
             };
         };

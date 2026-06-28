@@ -14,11 +14,11 @@ import updateWatch from "./creates/updateWatch";
 import deleteWatch from "./creates/deleteWatch";
 import runWatch from "./creates/runWatch";
 import testWatch from "./creates/testWatch";
+import getAccount from "./creates/getAccount";
 
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import getWatchStatus from "./searches/getWatchStatus";
-import getAccount from "./searches/getAccount";
 
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
 import listJobs from "./triggers/listJobs";
@@ -61,12 +61,12 @@ export default {
     [deleteWatch.key]: deleteWatch,
     [runWatch.key]: runWatch,
     [testWatch.key]: testWatch,
+    [getAccount.key]: getAccount,
   },
 
   searches: {
     [getJobStatus.key]: getJobStatus,
     [getBatchStatus.key]: getBatchStatus,
     [getWatchStatus.key]: getWatchStatus,
-    [getAccount.key]: getAccount,
   },
 };

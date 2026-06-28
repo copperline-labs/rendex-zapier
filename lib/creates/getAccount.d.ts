@@ -8,7 +8,7 @@ declare const _default: {
     };
     operation: {
         inputFields: never[];
-        perform: (z: ZObject, _bundle: Bundle) => Promise<any[]>;
+        perform: (z: ZObject, _bundle: Bundle) => Promise<any>;
         outputFields: ({
             key: string;
             label: string;
