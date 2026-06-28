@@ -5,6 +5,7 @@ import { addBearerToken, setBaseUrl, handleErrors } from "./middleware";
 import screenshotCapture from "./creates/screenshotCapture";
 import generatePdf from "./creates/generatePdf";
 import renderLink from "./creates/renderLink";
+import createArtifact from "./creates/createArtifact";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
 import extractText from "./creates/extractText";
@@ -17,6 +18,7 @@ import testWatch from "./creates/testWatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import getWatchStatus from "./searches/getWatchStatus";
+import getAccount from "./searches/getAccount";
 
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
 import listJobs from "./triggers/listJobs";
@@ -50,6 +52,7 @@ export default {
     [screenshotCapture.key]: screenshotCapture,
     [generatePdf.key]: generatePdf,
     [renderLink.key]: renderLink,
+    [createArtifact.key]: createArtifact,
     [captureAsync.key]: captureAsync,
     [submitBatch.key]: submitBatch,
     [extractText.key]: extractText,
@@ -64,5 +67,6 @@ export default {
     [getJobStatus.key]: getJobStatus,
     [getBatchStatus.key]: getBatchStatus,
     [getWatchStatus.key]: getWatchStatus,
+    [getAccount.key]: getAccount,
   },
 };

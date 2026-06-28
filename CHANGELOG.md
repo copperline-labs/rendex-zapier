@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.0
+
+**New "Create Branded Artifact" action** — turn Markdown or HTML into a polished, branded document in one step and get back a hosted PDF, PNG, and share link. Add your brand name, logo, accent color, and footer, and optionally fill in `{{placeholders}}` with template values — great for reports, invoices, receipts, and one-pagers. Choose PDF, PNG, or both, and set how long the links stay valid. The result comes back right away — no waiting or polling.
+
+**New "Get Account & Usage" search** — look up your connected Rendex account at any time: your plan, this month's usage (used, limit, and remaining), the reset date, your per-minute rate limit, and the recommended upgrade. It's always free — checking your usage never uses credits — so you can branch a Zap on how many renders you have left.
+
+No authentication or trigger changes. Existing Zaps continue to work unchanged.
+
 ## 1.6.1
 
 **New "Test a Website Watch" action** — try out a watch on a page once, right now, without actually creating it. Rendex captures the page a single time and tells you whether it could read it and what it saw — so you can confirm the page works and your settings are right (which part of the page to watch, what counts as a change, how it should appear) before you start monitoring. Nothing is saved and no alerts are set up. Great for checking a new watch from a Zap before you commit to it.

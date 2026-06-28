@@ -1,6 +1,7 @@
 import screenshotCapture from "./creates/screenshotCapture";
 import generatePdf from "./creates/generatePdf";
 import renderLink from "./creates/renderLink";
+import createArtifact from "./creates/createArtifact";
 import captureAsync from "./creates/captureAsync";
 import submitBatch from "./creates/submitBatch";
 import extractText from "./creates/extractText";
@@ -12,6 +13,7 @@ import testWatch from "./creates/testWatch";
 import getJobStatus from "./searches/getJobStatus";
 import getBatchStatus from "./searches/getBatchStatus";
 import getWatchStatus from "./searches/getWatchStatus";
+import getAccount from "./searches/getAccount";
 import newCompletedScreenshot from "./triggers/newCompletedScreenshot";
 import listJobs from "./triggers/listJobs";
 import listBatches from "./triggers/listBatches";
@@ -759,6 +761,93 @@ declare const _default: {
                 };
             };
         };
+        [createArtifact.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: ({
+                    key: string;
+                    label: string;
+                    type: "text";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                    list?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    choices: {
+                        markdown: string;
+                        html: string;
+                        pdf?: undefined;
+                        png?: undefined;
+                    };
+                    default: string;
+                    required: boolean;
+                    helpText: string;
+                    list?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    list: boolean;
+                    choices: {
+                        pdf: string;
+                        png: string;
+                        markdown?: undefined;
+                        html?: undefined;
+                    };
+                    required: boolean;
+                    helpText: string;
+                    default?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "string";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                    list?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "integer";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                    list?: undefined;
+                } | {
+                    key: string;
+                    label: string;
+                    type: "dict";
+                    required: boolean;
+                    helpText: string;
+                    choices?: undefined;
+                    default?: undefined;
+                    list?: undefined;
+                })[];
+                perform: (z: import("zapier-platform-core").ZObject, bundle: import("zapier-platform-core").Bundle) => Promise<{
+                    pdfUrl: any;
+                    pngUrl: any;
+                    shareUrl: any;
+                    expiresAt: any;
+                }>;
+                sample: {
+                    pdfUrl: string;
+                    pngUrl: string;
+                    shareUrl: string;
+                    expiresAt: string;
+                };
+            };
+        };
         [captureAsync.key]: {
             key: string;
             noun: string;
@@ -1405,6 +1494,52 @@ declare const _default: {
                     lastStatus: string;
                     lastChangedAt: string;
                     nextRunAt: string;
+                };
+            };
+        };
+        [getAccount.key]: {
+            key: string;
+            noun: string;
+            display: {
+                label: string;
+                description: string;
+            };
+            operation: {
+                inputFields: never[];
+                perform: (z: import("zapier-platform-core").ZObject, _bundle: import("zapier-platform-core").Bundle) => Promise<any[]>;
+                outputFields: ({
+                    key: string;
+                    label: string;
+                    type: "string";
+                } | {
+                    key: string;
+                    label: string;
+                    type: "integer";
+                } | {
+                    key: string;
+                    label: string;
+                    type: "boolean";
+                } | {
+                    key: string;
+                    label: string;
+                    type: "datetime";
+                })[];
+                sample: {
+                    plan: string;
+                    usage: {
+                        used: number;
+                        limit: number;
+                        remaining: number;
+                        unlimited: boolean;
+                        resetsAt: string;
+                    };
+                    rateLimitPerMinute: number;
+                    upgrade: {
+                        recommendedPlan: string;
+                        recommendedPlanCredits: number;
+                        upgradeUrl: string;
+                        manageBillingUrl: string;
+                    };
                 };
             };
         };
