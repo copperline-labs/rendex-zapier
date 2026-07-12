@@ -67,15 +67,30 @@ export const handleErrors = async (
     );
   }
   if (response.status === 429) {
+    // Two 429s: USAGE_EXCEEDED = the monthly pool is spent (halt — a retry can't
+    // help until refill/upgrade); RATE_LIMITED = the per-minute cap (throttle —
+    // Zapier auto-retries and the cap clears in ~60s, so DON'T halt a working Zap).
+    // Either way, surface the API's own message + upgrade link so the user sees the
+    // real reason and the upgrade path instead of a generic "rate limited".
     const body = response.json;
     const code = body?.error?.code;
+    const message = body?.error?.message;
+    const upgradeUrl = body?.error?.upgrade_url;
+    const withUpgrade = (fallback: string): string => {
+      const base = message || fallback;
+      return upgradeUrl && !String(base).includes(upgradeUrl)
+        ? `${base} Upgrade at ${upgradeUrl}`
+        : base;
+    };
     if (code === "USAGE_EXCEEDED") {
       throw new z.errors.HaltedError(
-        "Monthly usage limit reached. Upgrade your plan at rendex.dev/dashboard.",
+        withUpgrade("Monthly usage limit reached. Upgrade your plan at rendex.dev/dashboard."),
       );
     }
     throw new z.errors.ThrottledError(
-      "Rate limited by Rendex. Zapier will automatically retry.",
+      withUpgrade(
+        "Rate limited by Rendex (the free plan allows 10 requests/minute). Zapier will retry automatically — upgrade for a higher limit.",
+      ),
       60,
     );
   }
