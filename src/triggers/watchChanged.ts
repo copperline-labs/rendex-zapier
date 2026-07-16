@@ -29,6 +29,7 @@ type RawRun = {
   diffOverlayUrl: string | null;
   cropUrl: string | null;
   changedRegion: { x: number; y: number; width: number; height: number } | null;
+  aiSummary: string | null;
   textDiff: string | null;
   completedAt: string | null;
 };
@@ -43,9 +44,10 @@ type RunEnrichment = {
   afterUrl?: string | null;
   diffOverlayUrl?: string | null;
   // The tight "what changed" image (drop straight into a Slack/email step) + its
-  // normalized region box.
+  // normalized region box + a one-line plain-English summary of the change.
   cropUrl?: string | null;
   changedRegion?: { x: number; y: number; width: number; height: number } | null;
+  aiSummary?: string | null;
   textDiff?: string | null;
   completedAt?: string | null;
 };
@@ -105,6 +107,7 @@ const perform = async (z: ZObject, _bundle: Bundle) => {
           diffOverlayUrl: run.diffOverlayUrl,
           cropUrl: run.cropUrl,
           changedRegion: run.changedRegion,
+          aiSummary: run.aiSummary,
           textDiff: run.textDiff,
           completedAt: run.completedAt,
         };
@@ -155,6 +158,7 @@ export default {
       diffOverlayUrl: "https://api.rendex.dev/v1/images/sample-diff.png",
       cropUrl: "https://api.rendex.dev/v1/images/sample-crop.png",
       changedRegion: { x: 0.1, y: 0.78, width: 0.32, height: 0.06 },
+      aiSummary: "The monthly price rose from $19 to $24.",
       textDiff: "- $19/mo\n+ $24/mo",
       completedAt: "2026-06-16T12:00:03.000Z",
     },

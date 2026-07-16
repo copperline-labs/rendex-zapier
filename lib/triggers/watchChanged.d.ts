@@ -22,6 +22,7 @@ declare const _default: {
                 width: number;
                 height: number;
             } | null;
+            aiSummary?: string | null;
             textDiff?: string | null;
             completedAt?: string | null;
             id: string;
@@ -55,6 +56,7 @@ declare const _default: {
                 width: number;
                 height: number;
             };
+            aiSummary: string;
             textDiff: string;
             completedAt: string;
         };
