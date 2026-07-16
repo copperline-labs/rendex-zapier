@@ -207,6 +207,15 @@ const webhookUrlField = {
     "Optional and advanced. Most people can leave this blank and use the \"Website Changed\" trigger instead. Requires a Starter plan or higher. On the Update action, type \"-\" or \"none\" here to remove an existing webhook.",
 };
 
+const aiSummaryField = {
+  key: "aiSummary",
+  label: "AI Summary of Changes",
+  type: "boolean" as const,
+  required: false,
+  helpText:
+    "Optional. Add an AI-written one-line summary of what changed to each alert (requires a Rendex Pro or Enterprise plan — not related to your Zapier plan). Every plan already gets a plain templated summary; this upgrades it to a natural-language sentence for text changes.",
+};
+
 const pausedCreateField = {
   key: "paused",
   label: "Start Paused",
@@ -236,6 +245,7 @@ const SHARED_OPTIONAL_FIELDS = [
   geoField,
   uaModeField,
   webhookUrlField,
+  aiSummaryField,
 ];
 
 export const CREATE_WATCH_FIELDS = [urlField, ...SHARED_OPTIONAL_FIELDS, pausedCreateField];

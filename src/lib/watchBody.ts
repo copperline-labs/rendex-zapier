@@ -71,6 +71,7 @@ export function buildWatchBody(
         : normalizeUrl(input.webhookUrl);
   }
   if (input.paused !== undefined && input.paused !== "") body.paused = toBool(input.paused);
+  if (input.aiSummary !== undefined && input.aiSummary !== "") body.aiSummary = toBool(input.aiSummary);
 
   // Render knobs → renderParams.
   const rp: Record<string, unknown> = {};
