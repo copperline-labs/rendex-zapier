@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.0
+
+**Watch now tells you what changed.** Every "Website Changed" trigger event now includes a plain-English **summary** of what changed, a **crop image** of exactly the part of the page that changed (`cropUrl`), and the change's location on the page (`changedRegion`) — alongside the existing before / after / overlay images. New watches also detect **any change** — how the page looks *and* its text — by default (the "What Counts as a Change" field now defaults to *Any change*).
+
+No authentication or trigger-shape changes. Existing Zaps continue to work unchanged; the new fields are additive.
+
 ## 1.7.0
 
 **New "Create Branded Artifact" action** — turn Markdown or HTML into a polished, branded document in one step and get back a hosted PDF, PNG, and share link. Add your brand name, logo, accent color, and footer, and optionally fill in `{{placeholders}}` with template values — great for reports, invoices, receipts, and one-pagers. Choose PDF, PNG, or both, and set how long the links stay valid. The result comes back right away — no waiting or polling.

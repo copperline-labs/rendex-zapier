@@ -1,6 +1,6 @@
 {
   "name": "rendex-zapier",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Rendex screenshot & rendering API integration for Zapier — render URLs, raw HTML, or Markdown to screenshots and PDFs, process batches, and monitor web pages for changes (Rendex Watch) directly from your Zaps.",
   "main": "lib/index.js",
   "author": "Copperline Labs <admin@rendex.dev> (https://rendex.dev)",
