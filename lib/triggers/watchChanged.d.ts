@@ -15,6 +15,13 @@ declare const _default: {
             beforeUrl?: string | null;
             afterUrl?: string | null;
             diffOverlayUrl?: string | null;
+            cropUrl?: string | null;
+            changedRegion?: {
+                x: number;
+                y: number;
+                width: number;
+                height: number;
+            } | null;
             textDiff?: string | null;
             completedAt?: string | null;
             id: string;
@@ -41,6 +48,13 @@ declare const _default: {
             beforeUrl: string;
             afterUrl: string;
             diffOverlayUrl: string;
+            cropUrl: string;
+            changedRegion: {
+                x: number;
+                y: number;
+                width: number;
+                height: number;
+            };
             textDiff: string;
             completedAt: string;
         };
