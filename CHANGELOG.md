@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.1
+
+**Corrected free-plan rate-limit and batch guidance.** The rate-limit message now states the correct free-plan limit (3 requests/minute), and the Submit Batch help text reflects that batch is a Starter-plan feature (Starter 25 URLs, Pro 100, Enterprise 500) rather than implying it is available on the free tier. Copy-only — no authentication, trigger, or action-shape changes; existing Zaps are unaffected.
+
 ## 1.8.0
 
 **Watch now tells you what changed.** Every "Website Changed" trigger event now includes a plain-English **summary** of what changed, a **crop image** of exactly the part of the page that changed (`cropUrl`), and the change's location on the page (`changedRegion`) — alongside the existing before / after / overlay images. New watches also detect **any change** — how the page looks *and* its text — by default (the "What Counts as a Change" field now defaults to *Any change*).
