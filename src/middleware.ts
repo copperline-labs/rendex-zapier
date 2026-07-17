@@ -89,7 +89,7 @@ export const handleErrors = async (
     }
     throw new z.errors.ThrottledError(
       withUpgrade(
-        "Rate limited by Rendex (the free plan allows 10 requests/minute). Zapier will retry automatically — upgrade for a higher limit.",
+        "Rate limited by Rendex (the free plan allows 3 requests/minute). Zapier will retry automatically — upgrade for a higher limit.",
       ),
       60,
     );

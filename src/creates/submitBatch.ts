@@ -58,7 +58,7 @@ const batchFields = [
     type: "text" as const,
     required: true,
     helpText:
-      "Newline-separated list of URLs to capture. Each URL becomes an individual screenshot job. Maximum batch size depends on your Rendex plan (separate from your Zapier plan). Free plan allows 5 URLs per batch. Starter plan allows 25. Pro plan allows 100. Enterprise plan allows 500. Requests exceeding your Rendex plan limit return a 403 PLAN_UPGRADE_REQUIRED error.",
+      "Newline-separated list of URLs to capture. Each URL becomes an individual screenshot job. Batch is a Starter-plan feature (the free tier is single-render). Maximum batch size depends on your Rendex plan (separate from your Zapier plan): Starter allows 25 URLs, Pro 100, Enterprise 500. The free plan — or requests exceeding your Rendex plan limit — return a 403 PLAN_UPGRADE_REQUIRED error.",
   },
   {
     key: "format",
